@@ -7,3 +7,12 @@ final routes = {
   '/home':         (BuildContext context) => new HomeScreen(),
   '/' :          (BuildContext context) => new LoginScreen(),
 };
+class Mynav {
+  static void goToHome(BuildContext context) {
+    Navigator.pushNamed(context, "/home");
+  }
+
+  static void goToIntro(BuildContext context) {
+    Navigator.pushNamed(context, "/");
+  }
+}

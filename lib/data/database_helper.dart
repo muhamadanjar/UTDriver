@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:io' as io;
 
 import 'package:path/path.dart';
-import 'package:ut_driver_app/models/user.dart';
+// import 'package:ut_driver_app/models/user.dart';
+import 'package:ut_driver_app/models/UserLogin.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -36,7 +37,7 @@ class DatabaseHelper {
     print("Created tables");
   }
 
-  Future<int> saveUser(User user) async {
+  Future<int> saveUser(UserLogin user) async {
     var dbClient = await db;
     int res = await dbClient.insert("User", user.toMap());
     return res;

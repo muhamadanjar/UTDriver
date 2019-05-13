@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/auth.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
-import 'package:ut_driver_app/models/user.dart';
+import 'package:ut_driver_app/models/UserLogin.dart';
 import 'package:ut_driver_app/screens/login/login_screen_presenter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -61,6 +61,34 @@ class LoginScreenState extends State<LoginScreen>
       child: new Text("LOGIN"),
       color: Colors.primaries[0],
     );
+    final email = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      autofocus: false,
+      initialValue: 'alucard@gmail.com',
+      decoration: InputDecoration(
+        hintText: 'Email',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final password = TextFormField(
+      autofocus: false,
+      initialValue: 'some password',
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+    final forgotLabel = FlatButton(
+      child: Text(
+        'Forgot password?',
+        style: TextStyle(color: Colors.black54),
+      ),
+      onPressed: () {},
+    );
     var loginForm = new Column(
       children: <Widget>[
         new Text(
@@ -88,6 +116,7 @@ class LoginScreenState extends State<LoginScreen>
                 child: new TextFormField(
                   onSaved: (val) => _password = val,
                   decoration: new InputDecoration(labelText: "Password"),
+                  obscureText: true,
                 ),
               ),
             ],
@@ -132,7 +161,7 @@ class LoginScreenState extends State<LoginScreen>
   }
 
   @override
-  void onLoginSuccess(User user) async {
+  void onLoginSuccess(UserLogin user) async {
     _showSnackBar(user.toString());
     setState(() => _isLoading = false);
     var db = new DatabaseHelper();
