@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/routes.dart';
+import 'package:ut_driver_app/screens/home/splash_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

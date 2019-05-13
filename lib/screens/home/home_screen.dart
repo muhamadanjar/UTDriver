@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/utils/network_util.dart';
+import 'package:ut_driver_app/routes.dart';
 class HomeScreen extends StatefulWidget {
   @override
 
@@ -93,23 +94,32 @@ class HomeScreenState extends State<HomeScreen>{
         ],
       ),
 
-      body:Column(
-        children: <Widget>[
-          Container(
-            child: _buildGopayMenu()
-          ),
-          Container(
-            child: Center(
-              child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
+      body:
+      Container(
+        child:ListView(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+              color: Colors.white,
+              child: Column(
+                children:<Widget>[_buildGopayMenu()],
+              )
             ),
-          )
-          // Center(
-          //     child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'},'
-          //       ' Longitude: ${_position != null ? _position.longitude.toString() : '0'}')
-          
-        ],
+            Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(top: 16.0),
+              child: Center(
+                child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
+              ),
+            ),
+            Container(
+              child: _buildJob(),
+            )
+          ],
+        )
       ),
       bottomNavigationBar:_bottomAppbar()
+
     );
 
   }
@@ -123,7 +133,8 @@ class HomeScreenState extends State<HomeScreen>{
               end: Alignment.bottomCenter,
               colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
             ),
-            borderRadius: new BorderRadius.all(new Radius.circular(3.0))),
+            borderRadius: new BorderRadius.all(new Radius.circular(3.0))
+        ),
         child: new Column(
           children: <Widget>[
             new Container(
@@ -222,7 +233,38 @@ class HomeScreenState extends State<HomeScreen>{
           ],
         ));
   }
-  
+  Widget _buildJob(){
+    
+    return Container(
+      child: Column(
+        
+        children: <Widget>[
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Card(
+                  child: Container(
+                    padding: new EdgeInsets.all(32.0),
+                    child: new Column(
+                      children: <Widget>[
+                        new Text('Hello World'),
+                        new FlatButton(
+                          child: Text('Lihat'),
+                          onPressed: () => Mynav.goToMap(context),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        
+        ],
+    )
+    );
+  }
   Widget _bottomAppbar(){
     return new BottomAppBar(
       child: new Row(
