@@ -5,6 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:native_widgets/native_widgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ut_driver_app/utils/webclient.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:ut_driver_app/utils/constans.dart';
@@ -108,7 +109,7 @@ class AuthModel extends Model {
 
   Future<UserLogin> getInfo(String token) async {
     try {
-      var _data = await NetworkUtil(UserLogin(token: token)).get(apiURL);
+      var _data = await WebClient(UserLogin(token: token)).get(apiURL);
       // var _json = json.decode(json.encode(_data));
       var _newUser = UserLogin.fromJson(_data["data"]);
       _newUser?.token = token;

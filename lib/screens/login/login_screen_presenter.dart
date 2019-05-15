@@ -1,8 +1,8 @@
 import 'package:ut_driver_app/data/rest_ds.dart';
-import 'package:ut_driver_app/models/UserLogin.dart';
+import 'package:ut_driver_app/models/user.dart';
 
 abstract class LoginScreenContract {
-  void onLoginSuccess(UserLogin user);
+  void onLoginSuccess(User user);
   void onLoginError(String errorTxt);
 }
 

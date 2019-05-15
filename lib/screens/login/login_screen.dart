@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/auth.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
-import 'package:ut_driver_app/models/UserLogin.dart';
+import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/screens/login/login_screen_presenter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -154,6 +154,7 @@ class LoginScreenState extends State<LoginScreen>
     );
   }
 
+  
   @override
   void onLoginError(String errorTxt) {
     _showSnackBar(errorTxt);
@@ -161,7 +162,7 @@ class LoginScreenState extends State<LoginScreen>
   }
 
   @override
-  void onLoginSuccess(UserLogin user) async {
+  void onLoginSuccess(User user) async {
     _showSnackBar(user.toString());
     setState(() => _isLoading = false);
     var db = new DatabaseHelper();

@@ -3,8 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
-import 'package:ut_driver_app/utils/network_util.dart';
 import 'package:ut_driver_app/routes.dart';
+import 'package:ut_driver_app/components/trapoid_container.dart';
 class HomeScreen extends StatefulWidget {
   @override
 
@@ -13,13 +13,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen>{
-  NetworkUtil _networkUtil;
   Geolocator _geolocator;
   Position _position;
   GoogleMapController mapController;
   bool isSwitched = true;
   static const LatLng _center = const LatLng(3.6422756, 98.5294038);
-  RestDatasource api;
+  RestDatasource api = new RestDatasource();
   Marker marker;
 
   @override
@@ -49,13 +48,11 @@ class HomeScreenState extends State<HomeScreen>{
   void updateLocation() async {
 
     try {
-      Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-          .timeout(new Duration(seconds: 5));
+      Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
       setState(() {
         _position = newPosition;
-        
       });
-      api.updateLocation(_position.latitude,_position.longitude); 
+      updatePosition();
     } catch (e) {
       print('Error: ${e.toString()}');
 
@@ -72,6 +69,13 @@ class HomeScreenState extends State<HomeScreen>{
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+
+  void updatePosition() async{
+    
+    api.updateLocation(_position.latitude.toString(), _position.longitude.toString());
   }
 
 
@@ -114,6 +118,12 @@ class HomeScreenState extends State<HomeScreen>{
             ),
             Container(
               child: _buildJob(),
+            ),
+            Container(
+              child: RaisedButton(
+                color: Colors.blue,
+                child: Text('Update Position'),
+                onPressed: updatePosition,),
             )
           ],
         )
@@ -234,35 +244,73 @@ class HomeScreenState extends State<HomeScreen>{
         ));
   }
   Widget _buildJob(){
-    
+    var width = MediaQuery.of(context).size.width;
+    var remHeight = MediaQuery.of(context).size.height-240;
     return Container(
-      child: Column(
-        
-        children: <Widget>[
-          Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Card(
-                  child: Container(
-                    padding: new EdgeInsets.all(32.0),
-                    child: new Column(
-                      children: <Widget>[
-                        new Text('Hello World'),
-                        new FlatButton(
-                          child: Text('Lihat'),
-                          onPressed: () => Mynav.goToMap(context),
-                        )
-                      ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(height: 20,),
+            Container(
+              height: 38,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "My Job",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                        fontSize: 32,
+                      ),
                     ),
-                  ),
-                )
-              ],
+                    Icon(
+                      Icons.star,
+                      color: Color.fromRGBO(238, 141, 141, 1),
+                      size: 32,
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
+            SizedBox(height: 7,),
+            InkWell(
+              onTap: (){
+                
+              },
+              child: Container(
+                height: 120,
+                margin: EdgeInsets.only(top: 10,bottom: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Center(
+                  child: ListTile(
+                    leading: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text("Full House Painting"),
+                    subtitle: Text("18% discount")
+                  ),
+                  )
+              ),
+            ),
+            SizedBox(height: 10,),
+            
+          ],
         
-        ],
-    )
+      )
+      )
     );
   }
   Widget _bottomAppbar(){
