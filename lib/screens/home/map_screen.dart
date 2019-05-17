@@ -6,7 +6,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  CameraPosition _initialPosition = CameraPosition(target: LatLng(3.6422756, 98.5294038));
+  CameraPosition _initialPosition = CameraPosition(target: LatLng(3.6422756, 98.5294038),zoom: 11.0);
   @override
   void initState(){
     super.initState();
@@ -25,6 +25,27 @@ class _MapScreenState extends State<MapScreen> {
               initialCameraPosition: _initialPosition,
               
             ),
+          ),
+          Padding(child: Align(
+            alignment: Alignment.topRight,
+                child: Column(
+                  children: <Widget> [
+                    FloatingActionButton(
+                      // onPressed: _onMapTypeButtonPressed,
+                      materialTapTargetSize: MaterialTapTargetSize.padded,
+                      backgroundColor: Colors.green,
+                      child: const Icon(Icons.map, size: 36.0),
+                    ),
+                    SizedBox(height: 16.0),
+                    FloatingActionButton(
+                      // onPressed: _onAddMarkerButtonPressed,
+                      materialTapTargetSize: MaterialTapTargetSize.padded,
+                      backgroundColor: Colors.green,
+                      child: const Icon(Icons.add_location, size: 36.0),
+                    ),
+                  ],
+                ),
+            )
           )
         ],
       ),

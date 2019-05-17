@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
+import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/routes.dart';
 import 'package:ut_driver_app/components/trapoid_container.dart';
+import 'package:ut_driver_app/components/job_card.dart';
 class HomeScreen extends StatefulWidget {
   @override
 
@@ -65,6 +68,7 @@ class HomeScreenState extends State<HomeScreen>{
     try {
       setState(() {
         isSwitched = value;
+        api.changeStatusOnline(value.toString());
       });
     } catch (e) {
       print(e);
@@ -74,15 +78,18 @@ class HomeScreenState extends State<HomeScreen>{
   @override
 
   void updatePosition() async{
+    try {
+      api.updateLocation(_position.latitude.toString(), _position.longitude.toString());  
+    } catch (e) {
+      print('Error Position :'+ e);
+    }
     
-    api.updateLocation(_position.latitude.toString(), _position.longitude.toString());
   }
 
 
   @override
 
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       appBar: AppBar(
@@ -117,7 +124,7 @@ class HomeScreenState extends State<HomeScreen>{
               ),
             ),
             Container(
-              child: _buildJob(),
+              // child: _buildJob(),
             ),
             Container(
               child: RaisedButton(
@@ -244,73 +251,23 @@ class HomeScreenState extends State<HomeScreen>{
         ));
   }
   Widget _buildJob(){
-    var width = MediaQuery.of(context).size.width;
-    var remHeight = MediaQuery.of(context).size.height-240;
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(height: 20,),
-            Container(
-              height: 38,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "My Job",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontSize: 32,
-                      ),
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Color.fromRGBO(238, 141, 141, 1),
-                      size: 32,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 7,),
-            InkWell(
-              onTap: (){
-                
-              },
-              child: Container(
-                height: 120,
-                margin: EdgeInsets.only(top: 10,bottom: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: Center(
-                  child: ListTile(
-                    leading: Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(40)),
-                        color: Colors.white,
-                      ),
-                    ),
-                    title: Text("Full House Painting"),
-                    subtitle: Text("18% discount")
-                  ),
-                  )
-              ),
-            ),
-            SizedBox(height: 10,),
-            
-          ],
-        
-      )
-      )
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 20.0),
+          ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              Hero(
+                tag: 'driver-job',
+                child: JobCard(),
+              )
+            ],
+          )
+
+        ],
+      ),
     );
   }
   Widget _bottomAppbar(){

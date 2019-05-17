@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.blueGrey),
+            decoration: BoxDecoration(color: Colors.blue),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         backgroundColor: Colors.white,
                         radius: 50.0,
                         child: Icon(
-                          Icons.shopping_cart,
+                          Icons.room,
                           color: Colors.lightBlue,
                           size: 50.0,
                         ),

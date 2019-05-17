@@ -5,10 +5,11 @@ import 'package:ut_driver_app/models/user.dart';
 class RestDatasource {
   NetworkUtil _networkUtil = new NetworkUtil();
 
-  static final BASE_URL = "http://192.168.100.8/api";
+  static final BASE_URL = "http://192.168.100.54/api";
   static final LOGIN_URL = BASE_URL + "/login";
   static final UPDATE_LOCATION =  BASE_URL + "/user/update_position";
   static final GET_USER =  BASE_URL + "/user/details";
+  static final SET_STATUS_ONLINE =  BASE_URL + "/user/changeonline";
   static final _API_KEY = "somerandomkey";
 
   Future<User> login(String username, String password) {
@@ -40,6 +41,14 @@ class RestDatasource {
     };
     print(UPDATE_LOCATION);
     return _networkUtil.post(UPDATE_LOCATION,body:data).then((dynamic res){
+      print(res);
+    });
+  }
+  Future<dynamic> changeStatusOnline(String status){
+    var data = {
+      'online' : status
+    };
+    return _networkUtil.post(SET_STATUS_ONLINE,body: data).then((dynamic res){
       print(res);
     });
   }  
