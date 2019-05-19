@@ -26,7 +26,9 @@ class _MapScreenState extends State<MapScreen> {
               
             ),
           ),
-          Padding(child: Align(
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Align(
             alignment: Alignment.topRight,
                 child: Column(
                   children: <Widget> [
@@ -35,6 +37,7 @@ class _MapScreenState extends State<MapScreen> {
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Colors.green,
                       child: const Icon(Icons.map, size: 36.0),
+                      onPressed: (){},
                     ),
                     SizedBox(height: 16.0),
                     FloatingActionButton(
@@ -42,6 +45,7 @@ class _MapScreenState extends State<MapScreen> {
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Colors.green,
                       child: const Icon(Icons.add_location, size: 36.0),
+                      onPressed: (){},
                     ),
                   ],
                 ),

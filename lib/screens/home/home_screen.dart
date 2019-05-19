@@ -123,9 +123,7 @@ class HomeScreenState extends State<HomeScreen>{
                 child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
               ),
             ),
-            Container(
-              // child: _buildJob(),
-            ),
+            _buildJob(),
             Container(
               child: RaisedButton(
                 color: Colors.blue,
@@ -255,9 +253,10 @@ class HomeScreenState extends State<HomeScreen>{
       scrollDirection: Axis.vertical,
       child: Column(
         children: <Widget>[
-          SizedBox(height: 20.0),
+          SizedBox(height: 10.0),
           ListView(
             scrollDirection: Axis.vertical,
+            shrinkWrap: true,
             children: <Widget>[
               Hero(
                 tag: 'driver-job',

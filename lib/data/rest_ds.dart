@@ -5,7 +5,7 @@ import 'package:ut_driver_app/models/user.dart';
 class RestDatasource {
   NetworkUtil _networkUtil = new NetworkUtil();
 
-  static final BASE_URL = "http://192.168.100.54/api";
+  static final BASE_URL = "http://192.168.43.110/api";
   static final LOGIN_URL = BASE_URL + "/login";
   static final UPDATE_LOCATION =  BASE_URL + "/user/update_position";
   static final GET_USER =  BASE_URL + "/user/details";
