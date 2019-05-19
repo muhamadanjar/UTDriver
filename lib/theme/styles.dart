@@ -21,7 +21,7 @@ fontWeight: FontWeight.bold);
 
 ///colors
 const Color primaryColor = Color(0xFF3F47F4);
-
+const Color secondaryColor = Color(0xff3164bd);
 ///text styles
 // TextStyle appBarTextStyle = TextStyle(color: Colors.black, fontSize: 24.0);
 // TextStyle radioSelectedTextStyle = TextStyle(color: Colors.white, fontSize: 18.0);

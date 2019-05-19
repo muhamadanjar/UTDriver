@@ -20,7 +20,6 @@ class TrapClipper extends CustomClipper<Path>{
   TrapClipper({this.points});
   @override
   Path getClip(Size size) {
-    // TODO: implement getClip
     var path = Path();
     path.addPolygon(points, true);
     return path;

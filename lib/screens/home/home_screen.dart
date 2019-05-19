@@ -128,7 +128,10 @@ class HomeScreenState extends State<HomeScreen>{
               child: RaisedButton(
                 color: Colors.blue,
                 child: Text('Update Position'),
-                onPressed: updatePosition,),
+                onPressed: (){
+                  Mynav.goToMap(context);
+                },
+              ),
             )
           ],
         )

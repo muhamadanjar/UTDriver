@@ -11,10 +11,13 @@ class JobCard extends StatelessWidget {
       height: 210.0,
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       child:Material(
-        color: primaryColor,
+        color: secondaryColor,
         elevation: 8.0 ,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: InkWell(
+            onTap: (){
+              print('pindah halaman');
+            },
             child: Container(
               margin: const EdgeInsets.all(16.0),
               child: Row(
