@@ -6,7 +6,6 @@ import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/routes.dart';
-import 'package:ut_driver_app/components/trapoid_container.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 class HomeScreen extends StatefulWidget {
   @override
@@ -105,8 +104,7 @@ class HomeScreenState extends State<HomeScreen>{
         ],
       ),
 
-      body:
-      Container(
+      body:Container(
         child:ListView(
           children: <Widget>[
             Container(
@@ -136,7 +134,7 @@ class HomeScreenState extends State<HomeScreen>{
           ],
         )
       ),
-      bottomNavigationBar:_bottomAppbar()
+      // bottomNavigationBar:_bottomAppbar()
 
     );
 

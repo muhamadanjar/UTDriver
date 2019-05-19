@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:ut_driver_app/utils/network_util.dart';
 import 'package:ut_driver_app/models/user.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class RestDatasource {
   NetworkUtil _networkUtil = new NetworkUtil();
 
@@ -21,6 +21,7 @@ class RestDatasource {
     return _networkUtil.post(LOGIN_URL,body:data).then((dynamic res) {
       print(res);
       if(res["error"] == null) throw new Exception(res["message"]);
+
       return new User.map(res["data"]);
       // return new UserLogin.fromJson(res['data']);
     });
