@@ -62,11 +62,11 @@ class JobCard extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Container(
-                    // child: Image.asset(
-                      // "assets/flutter.png",
-                      // width: 80.0,
-                      // color: Colors.white,
-                    // ),
+                    child: Image.asset(
+                      "assets/flutter.png",
+                      width: 80.0,
+                      color: Colors.white,
+                    ),
                   )
                 ],
               ),

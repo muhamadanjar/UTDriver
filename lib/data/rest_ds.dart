@@ -7,6 +7,7 @@ class RestDatasource {
 
   static final BASE_URL = "http://192.168.43.110/api";
   static final LOGIN_URL = BASE_URL + "/login";
+  static final LOGOUT_URL = BASE_URL + "/logout";
   static final UPDATE_LOCATION =  BASE_URL + "/user/update_position";
   static final GET_USER =  BASE_URL + "/user/details";
   static final SET_STATUS_ONLINE =  BASE_URL + "/user/changeonline";
@@ -26,6 +27,14 @@ class RestDatasource {
       });
       return new User.map(res["data"]);
       // return new UserLogin.fromJson(res['data']);
+    });
+  }
+
+  Future<User> logout(){
+    return _networkUtil.get(LOGOUT_URL).then((dynamic res)=>{
+      SharedPreferences.getInstance().then((pref)=>{
+        pref.clear()
+      })
     });
   }
 

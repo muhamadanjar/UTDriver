@@ -12,7 +12,7 @@ class _IndexHomeState extends State<IndexHome> {
   final _layoutPage= [
     HomeScreen(),
     InboxScreen(),
-    ProfileView(),
+    ProfilePage(),
   ];
   void _onTabItem(int index){
     setState(() {

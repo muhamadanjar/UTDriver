@@ -36,12 +36,12 @@ class _ProfileViewState extends State<ProfileView> {
                 automaticallyImplyLeading: false,
                 pinned: true,
                 backgroundColor: Colors.black,
-                leading: GestureDetector(
-                  child: IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.arrow_back, size: 26, color: Colors.white),
-                  ),
-                ),
+                // leading: GestureDetector(
+                //   child: IconButton(
+                //     onPressed: () => Navigator.pop(context),
+                //     icon: Icon(Icons.arrow_back, size: 26, color: Colors.white),
+                //   ),
+                // ),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.edit, size: 26, color: Colors.white),
