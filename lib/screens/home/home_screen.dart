@@ -134,7 +134,6 @@ class HomeScreenState extends State<HomeScreen>{
           ],
         )
       ),
-      // bottomNavigationBar:_bottomAppbar()
 
     );
 
@@ -270,32 +269,5 @@ class HomeScreenState extends State<HomeScreen>{
       ),
     );
   }
-  Widget _bottomAppbar(){
-    return new BottomAppBar(
-      child: new Row(
-        // alignment: MainAxisAlignment.spaceAround,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          new IconButton(
-            icon: Icon(
-              Icons.home,
-            ),
-            onPressed: () {},
-          ),
-          new IconButton(
-            icon: Icon(
-              Icons.message,
-            ),
-            onPressed: () {},
-          ),
-          new IconButton(
-            icon: Icon(
-              Icons.account_box,
-            ),
-            onPressed: null,
-          ),
-        ],
-      ),
-    );
-  }
+  
 }

@@ -21,7 +21,9 @@ class RestDatasource {
     return _networkUtil.post(LOGIN_URL,body:data).then((dynamic res) {
       print(res);
       if(res["error"] == null) throw new Exception(res["message"]);
-
+      SharedPreferences.getInstance().then((pref)=>{
+        pref.setString('token', res['data'].token)
+      });
       return new User.map(res["data"]);
       // return new UserLogin.fromJson(res['data']);
     });

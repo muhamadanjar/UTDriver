@@ -4,6 +4,7 @@ import '../models/job.dart';
 import '../components/locationOrder.dart';
 import '../components/detailOrder.dart';
 class JobCard extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return 
@@ -52,7 +53,7 @@ class JobCard extends StatelessWidget {
                         ),
                         SizedBox(height: 16.0),
                         OrderDetailWidget(
-                        terminal: 'ticket.terminal',
+                        terminal: 'terminal',
                         boarding: '12PM',
                         game: 'testing',
                       ),
@@ -61,12 +62,12 @@ class JobCard extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Container(
-                        child: Image.asset(
-                          "assets/flutter.png",
-                          width: 80.0,
-                          color: Colors.white,
-                        ),
-                      )
+                    // child: Image.asset(
+                      // "assets/flutter.png",
+                      // width: 80.0,
+                      // color: Colors.white,
+                    // ),
+                  )
                 ],
               ),
             ),
