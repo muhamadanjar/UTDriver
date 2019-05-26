@@ -22,15 +22,16 @@ class RestDatasource {
     return _networkUtil.post(LOGIN_URL,body:data).then((dynamic res) {
       print(res);
       if(res["error"] == null) throw new Exception(res["message"]);
-      SharedPreferences.getInstance().then((pref)=>{
-        pref.setString('token', res['data'].token)
+      SharedPreferences.getInstance().then((pref){
+        print(res.toString());
+        pref.setString('token', res['data'].token);
       });
-      return new User.map(res["data"]);
+      return new User.fromJson(res["data"]);
       // return new UserLogin.fromJson(res['data']);
     });
   }
 
-  Future<User> logout(){
+  Future<dynamic> logout(){
     return _networkUtil.get(LOGOUT_URL).then((dynamic res)=>{
       SharedPreferences.getInstance().then((pref)=>{
         pref.clear()

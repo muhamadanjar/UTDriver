@@ -1,20 +1,31 @@
 class User {
-  String _username;
-  String _password;
-  User(this._username, this._password);
+  final String username;
+  final String password;
+  final String token;
+  User({this.username, this.password,this.token});
 
-  User.map(dynamic obj) {
-    this._username = obj["username"];
-    this._password = obj["password"];
+  String get _username => username;
+  String get _password => password;
+
+  
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      username: json['username'],
+      password: json['password'],
+      token: json['token'],
+    );
   }
 
-  String get username => _username;
-  String get password => _password;
+  // User.map(dynamic obj) {
+  //   this._username = obj["username"];
+  //   this._password = obj["password"];
+  // }
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map["username"] = _username;
-    map["password"] = _password;
+    map["username"] = username;
+    map["password"] = password;
+    map['token'] = token;
 
     return map;
   }

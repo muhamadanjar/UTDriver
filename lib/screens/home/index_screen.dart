@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ut_driver_app/screens/home/home_screen.dart';
 import 'package:ut_driver_app/screens/home/akun_screen.dart';
 import 'package:ut_driver_app/screens/home/inbox_screen.dart';
+import 'package:ut_driver_app/screens/chat/chat_screen.dart';
 class IndexHome extends StatefulWidget {
   @override
   _IndexHomeState createState() => _IndexHomeState();
@@ -11,7 +12,7 @@ class _IndexHomeState extends State<IndexHome> {
   int _selectedIndex = 0;
   final _layoutPage= [
     HomeScreen(),
-    InboxScreen(),
+    ChatScreen(),
     ProfilePage(),
   ];
   void _onTabItem(int index){

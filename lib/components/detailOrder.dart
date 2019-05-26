@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 
 class OrderDetailWidget extends StatelessWidget {
-  final String terminal, game, boarding;
+  final String type, harga, jam;
 
-  OrderDetailWidget({this.terminal, this.game, this.boarding});
+  OrderDetailWidget({this.type, this.harga, this.jam});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        buildDetailColumn("terminal", terminal),
+        buildDetailColumn("terminal", jam),
         Spacer(),
-        buildDetailColumn("game", game),
+        buildDetailColumn("game", harga),
         Spacer(),
-        buildDetailColumn("boarding", boarding),
+        buildDetailColumn("boarding", jam),
       ],
     );
   }

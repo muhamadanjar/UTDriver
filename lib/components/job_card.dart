@@ -53,9 +53,9 @@ class JobCard extends StatelessWidget {
                         ),
                         SizedBox(height: 16.0),
                         OrderDetailWidget(
-                        terminal: 'terminal',
-                        boarding: '12PM',
-                        game: 'testing',
+                        type: 'Rental',
+                        jam: '12PM',
+                        harga: '2 IDR',
                       ),
                       ],
                     ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:ut_driver_app/models/user.dart';
 class NetworkUtil {
   
   final JsonDecoder _decoder = new JsonDecoder();
@@ -21,7 +22,11 @@ class NetworkUtil {
 
     Future<dynamic> post(String url, {Map headers, body, encoding}) {
       var token;
-      SharedPreferences.getInstance().then((_p)=>token =_p.getString('token'));
+      SharedPreferences.getInstance().then((_p){
+        token = _p.getString('token');
+        
+      });
+  
       return http
           .post(url, body: body, headers: {
             'Accept': 'application/json',
