@@ -19,13 +19,11 @@ class RestDatasource {
       "password": password,
       "token": _API_KEY,
     };
-    return _networkUtil.post(LOGIN_URL,body:data).then((dynamic res) {
+    return _networkUtil.post(LOGIN_URL,body:data).then((dynamic res) async {
       print(res);
       if(res["error"] == null) throw new Exception(res["message"]);
-      SharedPreferences.getInstance().then((pref){
-        print(res.toString());
-        pref.setString('token', res['data'].token);
-      });
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', res['data']['token']);
       return new User.fromJson(res["data"]);
       // return new UserLogin.fromJson(res['data']);
     });

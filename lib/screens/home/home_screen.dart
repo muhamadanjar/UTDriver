@@ -34,8 +34,6 @@ class HomeScreenState extends State<HomeScreen>{
     checkPermission();
     updateLocation();
 
-    
-
     StreamSubscription positionStream = _geolocator.getPositionStream(locationOptions).listen((Position position) {
       _position = position;
     });

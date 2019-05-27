@@ -20,13 +20,10 @@ class NetworkUtil {
     });
   }
 
-    Future<dynamic> post(String url, {Map headers, body, encoding}) {
-      var token;
-      SharedPreferences.getInstance().then((_p){
-        token = _p.getString('token');
-        
-      });
-  
+    Future<dynamic> post(String url, {Map headers, body, encoding}) async{
+      
+      final prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
       return http
           .post(url, body: body, headers: {
             'Accept': 'application/json',
