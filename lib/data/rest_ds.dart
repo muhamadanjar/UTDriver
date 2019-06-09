@@ -25,7 +25,6 @@ class RestDatasource {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', res['data']['token']);
       return new User.fromJson(res["data"]);
-      // return new UserLogin.fromJson(res['data']);
     });
   }
 
@@ -37,10 +36,11 @@ class RestDatasource {
     });
   }
 
-  Future<String> getUser(String token){
+  Future<User> getUser(String token){
     var data = {'token':token};
     return _networkUtil.post(GET_USER,body:data).then((dynamic res){
-      print(res);
+      // print(res);
+      return new User.fromJson(res['data']);
     });
   }
 

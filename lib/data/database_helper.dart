@@ -3,7 +3,6 @@ import 'dart:io' as io;
 
 import 'package:path/path.dart';
 import 'package:ut_driver_app/models/user.dart';
-// import 'package:ut_driver_app/models/UserLogin.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -33,7 +32,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-    "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT,token TEXT)");
+    "CREATE TABLE User(id INTEGER PRIMARY KEY,name,TEXT, username TEXT, password TEXT,token TEXT)");
     print("Created tables");
   }
 

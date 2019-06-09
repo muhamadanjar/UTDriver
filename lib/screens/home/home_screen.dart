@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
-import 'package:ut_driver_app/models/job.dart';
+// import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/routes.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 class HomeScreen extends StatefulWidget {

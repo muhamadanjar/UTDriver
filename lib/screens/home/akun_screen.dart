@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import '../../data/rest_ds.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ut_driver_app/data/database_helper.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,15 +17,41 @@ class ProfileView extends StatefulWidget {
 const kExpandedHeight = 300.0;
 
 class _ProfileViewState extends State<ProfileView> {
+  BuildContext ctx;
   ScrollController _scrollController;
-
+  String driverName;
+  int totTrip,toYear;
+  double rating;
+  Map userData;
+  RestDatasource _restDatasource = new RestDatasource();
   @override
   void initState() {
     super.initState();
+    
+    this.getUser();
+  }
+  void getUser() async{
+    final _prefs = await SharedPreferences.getInstance();
+    final token = _prefs.getString('token');
+    dynamic userData = await _restDatasource.getUser(token);
+    setState(() {
+      rating = userData.rating;
+      driverName = userData.name;
+    });
+  }
+  void _signOut() async{
+    print('Request Sign out');
+    var db = new DatabaseHelper();
+    final _pref = await SharedPreferences.getInstance();
+    _pref.clear();
+    db.deleteUsers();
+    Navigator.pushReplacementNamed(ctx, '/login');
+
   }
 
   @override
   Widget build(BuildContext context) {
+    ctx = context;
     return DefaultTabController(
       length: 1,
       child: NestedScrollView(
@@ -57,11 +85,10 @@ class _ProfileViewState extends State<ProfileView> {
                         decoration: BoxDecoration(color: Colors.black),
                         child: Center(
                           child: ProfileWidget(
-                            onPressed: () =>
-                                Navigator.pushNamed(context, "/profile"),
+                            onPressed: () =>{},
                             icon: Icons.star,
-                            name: "Ihwan",
-                            rating: "4.88",
+                            name: driverName.toString(),
+                            rating: rating.toString(),
                           ),
                         ),
                       )
@@ -74,8 +101,8 @@ class _ProfileViewState extends State<ProfileView> {
           body: Scaffold(
             body: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
               child: ListView(
                 children: <Widget>[
                   Padding(
@@ -191,6 +218,16 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                   makeCompliementsList("Cool Car"),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Container(
+                      child: FlatButton(
+                        child: Text('Sign Out'),
+                        color: Colors.blue,
+                        onPressed: _signOut,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

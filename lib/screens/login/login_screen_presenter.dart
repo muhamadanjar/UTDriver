@@ -17,7 +17,7 @@ class LoginScreenPresenter {
       print('print user');
       print(user);
       _view.onLoginSuccess(user);
-    }).catchError((Exception error) => _view.onLoginError(error.toString()));
+    }).catchError((Object error) => _view.onLoginError(error.toString()));
 
     
   }
