@@ -4,9 +4,8 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
-// import 'package:ut_driver_app/models/job.dart';
+import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/routes.dart';
-import 'package:ut_driver_app/components/job_card.dart';
 class HomeScreen extends StatefulWidget {
   @override
 
@@ -22,16 +21,17 @@ class HomeScreenState extends State<HomeScreen>{
   static const LatLng _center = const LatLng(3.6422756, 98.5294038);
   RestDatasource api = new RestDatasource();
   Marker marker;
+  Job job;
+  String saldo = "Rp. 0";
+  
 
   @override
-
   void initState() {
-
     super.initState();
-
     _geolocator = Geolocator();
     LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
     checkPermission();
+    getUser();
     updateLocation();
 
     StreamSubscription positionStream = _geolocator.getPositionStream(locationOptions).listen((Position position) {
@@ -46,7 +46,6 @@ class HomeScreenState extends State<HomeScreen>{
   }
 
   void updateLocation() async {
-
     try {
       Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
       setState(() {
@@ -59,8 +58,14 @@ class HomeScreenState extends State<HomeScreen>{
     }
 
   }
-  
-  @override
+  void getUser() async{
+    try {
+      var getData =  await api.getUser();
+      print(getData);
+    } catch (e) {
+      print("Error : $e");
+    }
+  }
   void _onChangeSwitch(bool value) async {
     try {
       setState(() {
@@ -72,8 +77,6 @@ class HomeScreenState extends State<HomeScreen>{
     }
   }
 
-  @override
-
   void updatePosition() async{
     try {
       api.updateLocation(_position.latitude.toString(), _position.longitude.toString());  
@@ -82,13 +85,18 @@ class HomeScreenState extends State<HomeScreen>{
     }
     
   }
-
-
+  void checkJob() async{
+    try {
+      api.checkJob();
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
 
   Widget build(BuildContext context) {
-    return Scaffold(
 
+    return Scaffold(
       appBar: AppBar(
 
         title: Text('Utama Trans'),
@@ -120,15 +128,7 @@ class HomeScreenState extends State<HomeScreen>{
               ),
             ),
             _buildJob(),
-            Container(
-              child: RaisedButton(
-                color: Colors.blue,
-                child: Text('Update Position'),
-                onPressed: (){
-                  Mynav.goToMap(context);
-                },
-              ),
-            )
+            
           ],
         )
       ),
@@ -173,7 +173,7 @@ class HomeScreenState extends State<HomeScreen>{
                   ),
                   new Container(
                     child: new Text(
-                      "Rp. 120.000",
+                      saldo,
                       style: new TextStyle(
                           fontSize: 14.0,
                           color: Colors.white,
@@ -205,24 +205,30 @@ class HomeScreenState extends State<HomeScreen>{
                       )
                     ],
                   ),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, 'topup'),
+                    child: new Column(
+
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Image.asset(
+                          "assets/icons/icon_saldo.png",
+                          width: 32.0,
+                          height: 32.0,
+                        ),
+                        new Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                        ),
+                        new Text(
+                          "Isi Saldo",
+                          style: TextStyle(color: Colors.white, fontSize: 12.0),
                   
-                  new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Image.asset(
-                        "assets/icons/icon_saldo.png",
-                        width: 32.0,
-                        height: 32.0,
-                      ),
-                      new Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                      ),
-                      new Text(
-                        "Isi Saldo",
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
+                  
+                  
                   new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -258,7 +264,7 @@ class HomeScreenState extends State<HomeScreen>{
             children: <Widget>[
               Hero(
                 tag: 'driver-job',
-                child: JobCard(),
+                child: JobCard(job: job),
               )
             ],
           )

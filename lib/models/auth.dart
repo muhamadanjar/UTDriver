@@ -9,7 +9,7 @@ import 'package:ut_driver_app/utils/webclient.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:ut_driver_app/utils/constans.dart';
-import 'package:ut_driver_app/models/UserLogin.dart';
+import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/utils/network_util.dart';
 
 class AuthModel extends Model {
@@ -18,7 +18,7 @@ class AuthModel extends Model {
   bool _rememberMe = false;
   bool _stayLoggedIn = true;
   bool _useBio = false;
-  UserLogin _user;
+  User _user;
 
   bool get rememberMe => _rememberMe;
 
@@ -72,11 +72,11 @@ class AuthModel extends Model {
     }
 
     if (_stayLoggedIn) {
-      UserLogin _savedUser;
+      User _savedUser;
       try {
         String _saved = _prefs.getString("user_data");
         print("Saved: $_saved");
-        _savedUser = UserLogin.fromJson(json.decode(_saved));
+        _savedUser = User.fromJson(json.decode(_saved));
       } catch (e) {
         print("User Not Found: $e");
       }
@@ -105,13 +105,13 @@ class AuthModel extends Model {
     return authenticated;
   }
 
-  UserLogin get user => _user;
+  User get user => _user;
 
-  Future<UserLogin> getInfo(String token) async {
+  Future<User> getInfo(String token) async {
     try {
-      var _data = await WebClient(UserLogin(token: token)).get(apiURL);
+      var _data = await WebClient(User(token: token)).get(apiURL);
       // var _json = json.decode(json.encode(_data));
-      var _newUser = UserLogin.fromJson(_data["data"]);
+      var _newUser = User.fromJson(_data["data"]);
       _newUser?.token = token;
       return _newUser;
     } catch (e) {
@@ -139,13 +139,13 @@ class AuthModel extends Model {
     }
 
     // Get Info For User
-    UserLogin _newUser = await getInfo(uuid.v4().toString());
+    User _newUser = await getInfo(uuid.v4().toString());
     if (_newUser != null) {
       _user = _newUser;
       notifyListeners();
 
       SharedPreferences.getInstance().then((prefs) {
-        var _save = json.encode(_user.toJson());
+        var _save = json.encode(_user.toMap());
         print("Data: $_save");
         prefs.setString("user_data", _save);
       });

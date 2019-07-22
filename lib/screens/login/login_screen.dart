@@ -49,9 +49,10 @@ class LoginScreenState extends State<LoginScreen>
 
   @override
   onAuthStateChanged(AuthState state) {
-
+    print(state);
     if(state == AuthState.LOGGED_IN)
       Navigator.of(_ctx).pushReplacementNamed("/home");
+
   }
 
   @override
@@ -61,7 +62,7 @@ class LoginScreenState extends State<LoginScreen>
       key: scaffoldKey,
       appBar: AppBar(
         title: Image(image:AssetImage("assets/flutter.png",),height: 30.0,fit: BoxFit.fitHeight,),
-        elevation: 0.0,
+        elevation: 8.0,
 
         centerTitle: true,
         backgroundColor: Colors.transparent,

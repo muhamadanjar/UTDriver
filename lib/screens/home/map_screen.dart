@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 class MapScreen extends StatefulWidget {
@@ -21,17 +22,45 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(
-      child: GoogleMap(
-          onMapCreated: _onMapCreated,
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('Lokasi Penumpang'),
+          backgroundColor: Colors.blue[700],
+      ),
+      body: 
+      Stack(
+        children: <Widget>[
+          GoogleMap(
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              )
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                children: <Widget>[
+                  FloatingActionButton(
+                    onPressed: ()=>{},
+                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    backgroundColor: Colors.blue,
+                    child: const Icon(Icons.add_location, size: 36.0),
+                  ),
+                  SizedBox(height: 16.0),
+                ],
+              ),
+            ),
+          ),
           
-          myLocationEnabled: true,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          )
+
+        ],
       )
+      
     );
+    
   }
 }

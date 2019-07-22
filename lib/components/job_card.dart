@@ -4,7 +4,9 @@ import '../models/job.dart';
 import '../components/locationOrder.dart';
 import '../components/detailOrder.dart';
 class JobCard extends StatelessWidget {
-  
+  final Job job;
+
+  const JobCard({Key key, this.job}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return 
@@ -17,7 +19,7 @@ class JobCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: InkWell(
             onTap: (){
-              print('pindah halaman');
+              Navigator.pushNamed(context, '/map');
             },
             child: Container(
               margin: const EdgeInsets.all(16.0),
@@ -53,17 +55,17 @@ class JobCard extends StatelessWidget {
                         ),
                         SizedBox(height: 16.0),
                         OrderDetailWidget(
-                        type: 'Rental',
-                        jam: '12PM',
-                        harga: '2 IDR',
-                      ),
+                          type: 'Rental',
+                          jam: '12:00',
+                          harga: 12,
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(width: 10.0),
                   Container(
                     child: Image.asset(
-                      "assets/flutter.png",
+                      "assets/google_map_vector.png",
                       width: 80.0,
                       color: Colors.white,
                     ),

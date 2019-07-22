@@ -2,10 +2,11 @@ class User {
   final String username;
   final String password;
   final String name;
-  final String token;
+  String token;
   final double rating;
   final int trip;
-  User({this.username, this.password,this.token,this.name,this.rating,this.trip});
+  int saldo;
+  User({this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo});
 
   String get _username => username;
   String get _password => password;
@@ -19,6 +20,7 @@ class User {
       rating: json['rating'],
       trip: json['trip'],
       token: json['token'],
+      saldo: json['wallet'],
     );
   }
 

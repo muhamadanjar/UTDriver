@@ -9,12 +9,12 @@ import 'package:http/io_client.dart' as inner;
 import 'package:path/path.dart';
 
 import 'constans.dart';
-import '../models/UserLogin.dart';
+import '../models/user.dart';
 
 class WebClient {
   WebClient(this.auth);
 
-  final UserLogin auth;
+  final User auth;
 
   Future<dynamic> get(String url) async {
     if (auth == null) throw ('Auth Model Required');

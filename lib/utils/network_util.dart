@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:ut_driver_app/models/user.dart';
 class NetworkUtil {
   
   final JsonDecoder _decoder = new JsonDecoder();
@@ -21,20 +19,14 @@ class NetworkUtil {
   }
 
     Future<dynamic> post(String url, {Map headers, body, encoding}) async{
-      
-      final prefs = await SharedPreferences.getInstance();
-      var token = prefs.getString('token');
       return http
-          .post(url, body: body, headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ${token}',
-          }, encoding: encoding)
+          .post(url, body: body, headers: headers, encoding: encoding)
           .then((http.Response response) {
         final String res = response.body;
         final int statusCode = response.statusCode;
         print(statusCode);
         if (statusCode < 200 || statusCode > 400 || json == null) {
-          throw new Exception("Error while fetching data");
+          throw new Exception("Error while fetching data : " + url);
         }
         return _decoder.convert(res);
       });

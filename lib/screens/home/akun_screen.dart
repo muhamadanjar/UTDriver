@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../data/rest_ds.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ut_driver_app/data/database_helper.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,20 +29,16 @@ class _ProfileViewState extends State<ProfileView> {
     this.getUser();
   }
   void getUser() async{
-    final _prefs = await SharedPreferences.getInstance();
-    final token = _prefs.getString('token');
-    dynamic userData = await _restDatasource.getUser(token);
-    setState(() {
-      rating = userData.rating;
-      driverName = userData.name;
-    });
+    var token = await _restDatasource.getPrefs('token');
+    dynamic userData = await _restDatasource.getUser();
+    // setState(() {
+    //   rating = userData.rating;
+    //   driverName = userData.name;
+    // });
   }
   void _signOut() async{
     print('Request Sign out');
-    var db = new DatabaseHelper();
-    final _pref = await SharedPreferences.getInstance();
-    _pref.clear();
-    db.deleteUsers();
+    _restDatasource.logout();
     Navigator.pushReplacementNamed(ctx, '/login');
 
   }

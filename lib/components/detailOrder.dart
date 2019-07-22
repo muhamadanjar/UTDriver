@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 
 class OrderDetailWidget extends StatelessWidget {
-  final String type, harga, jam;
+  final String type, jam;
+  final int harga;
 
   OrderDetailWidget({this.type, this.harga, this.jam});
 
@@ -10,11 +11,11 @@ class OrderDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        buildDetailColumn("terminal", jam),
+        buildDetailColumn("type", type),
         Spacer(),
-        buildDetailColumn("game", harga),
+        buildDetailColumn("harga", harga.toString()),
         Spacer(),
-        buildDetailColumn("boarding", jam),
+        buildDetailColumn("jam", jam),
       ],
     );
   }
