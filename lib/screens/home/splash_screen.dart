@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:ut_driver_app/routes.dart';
+import 'package:ut_driver_app/utils/constans.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () => Mynav.goToIntro(context));
+    Timer(Duration(seconds: 5), () => Navigator.of(context).pushReplacementNamed(RoutePaths.Home));
   }
 
   @override

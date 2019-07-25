@@ -4,7 +4,7 @@ import 'package:ut_driver_app/auth.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/screens/login/login_screen_presenter.dart';
-
+import 'package:ut_driver_app/utils/constans.dart';
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -51,7 +51,7 @@ class LoginScreenState extends State<LoginScreen>
   onAuthStateChanged(AuthState state) {
     print(state);
     if(state == AuthState.LOGGED_IN)
-      Navigator.of(_ctx).pushReplacementNamed("/home");
+      Navigator.of(_ctx).pushReplacementNamed(RoutePaths.Home);
 
   }
 
@@ -61,7 +61,7 @@ class LoginScreenState extends State<LoginScreen>
    return new Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Image(image:AssetImage("assets/flutter.png",),height: 30.0,fit: BoxFit.fitHeight,),
+        title: Text('Driver Utama Trans'),
         elevation: 8.0,
 
         centerTitle: true,
@@ -114,47 +114,14 @@ class LoginScreenState extends State<LoginScreen>
                                               ),
                                               flex: 1,
                                             ),
-                                            SizedBox(height: 18.0,width: 18.0,),
-                                            SizedBox(height: 18.0,width: 18.0,),
-                                            Expanded(
-                                              flex: 1,
-                                              child: OutlineButton(
-                                                  //child: Text("login with google"),
-                                                // child: ImageIcon(AssetImage("images/google1.png"),semanticLabel: "login",),
-                                                  child: Image(image: AssetImage("assets/google1.png"),height:28.0,fit: BoxFit.fitHeight),
-                                                  onPressed: (){
-                            
-                                                  }),
-                                            )
+
+
 
                                           ],
                                     ),
                                     SizedBox(height: 15.0),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          'New login with google?',
-                                          style: TextStyle(fontFamily: 'Montserrat'),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        InkWell(
-                                          child: Text(
-                                            'create new account',
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.bold,
-                                                decoration: TextDecoration.underline),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    OutlineButton(
-                                        child: Text("signup"),
-                                        onPressed: (){
-                                          // Navigator.of(context).pushNamed('/signup');
-                                        }),
+
+
                                   
                                   ],
 
