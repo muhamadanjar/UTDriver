@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/theme/styles.dart';
+import 'package:ut_driver_app/utils/constans.dart';
 import '../models/job.dart';
 import '../components/locationOrder.dart';
 import '../components/detailOrder.dart';
@@ -19,7 +20,7 @@ class JobCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: InkWell(
             onTap: (){
-              Navigator.pushNamed(context, '/map');
+              Navigator.pushNamed(context, RoutePaths.Map);
             },
             child: Container(
               margin: const EdgeInsets.all(16.0),

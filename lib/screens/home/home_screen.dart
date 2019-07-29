@@ -60,13 +60,16 @@ class HomeScreenState extends State<HomeScreen>{
   void getUser() async{
     try {
       var getData =  await api.getUser();
-      print(getData);
+      setState(() {
+        saldo = "Rp. ${getData.saldo.toString()}";
+      });
     } catch (e) {
       print("Error : $e");
     }
   }
   void _onChangeSwitch(bool value) async {
     try {
+      print(value);
       setState(() {
         isSwitched = value;
         api.changeStatusOnline(value.toString());

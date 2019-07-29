@@ -6,8 +6,8 @@ class NetworkUtil {
   
   final JsonDecoder _decoder = new JsonDecoder();
 
-  Future<dynamic> get(String url) {
-    return http.get(url).then((http.Response response) {
+  Future<dynamic> get(String url,{Map headers, body, encoding}) {
+    return http.get(url,headers: headers ).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
 

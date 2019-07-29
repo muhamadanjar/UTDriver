@@ -144,106 +144,8 @@ class LoginScreenState extends State<LoginScreen>
     );
   }
 
-  @override
-  Widget buildOld(BuildContext context) {
-    _ctx = context;
-    var loginBtn = new RaisedButton(
-      onPressed: _submit,
-      child: new Text("LOGIN"),
-      color: Colors.primaries[0],
-    );
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      initialValue: 'alucard@gmail.com',
-      decoration: InputDecoration(
-        hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
 
-    final password = TextFormField(
-      autofocus: false,
-      initialValue: 'some password',
-      obscureText: true,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-    final forgotLabel = FlatButton(
-      child: Text(
-        'Forgot password?',
-        style: TextStyle(color: Colors.black54),
-      ),
-      onPressed: () {},
-    );
-    var loginForm = new Column(
-      children: <Widget>[
-        new Text(
-          "Login App",
-          textScaleFactor: 2.0,
-        ),
-        new Form(
-          key: formKey,
-          child: new Column(
-            children: <Widget>[
-              new Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new TextFormField(
-                  onSaved: (val) => _username = val,
-                  validator: (val) {
-                    return val.length < 10
-                        ? "Username must have atleast 10 chars"
-                        : null;
-                  },
-                  decoration: new InputDecoration(labelText: "Username"),
-                ),
-              ),
-              new Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new TextFormField(
-                  onSaved: (val) => _password = val,
-                  decoration: new InputDecoration(labelText: "Password"),
-                  obscureText: true,
-                ),
-              ),
-            ],
-          ),
-        ),
-        _isLoading ? new CircularProgressIndicator() : loginBtn
-      ],
-      crossAxisAlignment: CrossAxisAlignment.center,
-    );
 
-    return new Scaffold(
-      appBar: null,
-      key: scaffoldKey,
-      body: new Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-              image: new AssetImage("assets/login_background.jpg"),
-              fit: BoxFit.cover),
-        ),
-        child: new Center(
-          child: new ClipRect(
-            child: new BackdropFilter(
-              filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: new Container(
-                child: loginForm,
-                height: 300.0,
-                width: 300.0,
-                decoration: new BoxDecoration(
-                    color: Colors.grey.shade200.withOpacity(0.5)),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
   
   Widget _input(String validation,bool ,String label,String hint, save ){
 
@@ -258,8 +160,7 @@ class LoginScreenState extends State<LoginScreen>
 
       ),
       obscureText: bool,
-      validator: (value)=>
-      value.isEmpty ? validation: null,
+      validator: (value)=>value.isEmpty ? validation: null,
       onSaved: save ,
 
     );

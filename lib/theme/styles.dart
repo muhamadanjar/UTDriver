@@ -30,3 +30,8 @@ TextStyle bigTextStyle = TextStyle(color: Colors.white, fontSize: 28.0, fontWeig
 TextStyle smallTextStyle = TextStyle(color: Colors.white, fontSize: 16.0);
 TextStyle mediumTextStyle = TextStyle(color: Colors.white, fontSize: 20.0);
 TextStyle smallBoldTextStyle = TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w900);
+
+const TextStyle dropDownMenuItemStyle = TextStyle(color: Colors.black, fontSize: 16.0);
+final Color hisBorderColor = Color(0xFFE6E6E6);
+final Color chipBackgroundColor = Color(0xFFF6F6F6);
+final Color discountBackgroundColor = Color(0xFFFFE08D);

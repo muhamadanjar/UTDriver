@@ -30,7 +30,7 @@ class AuthStateProvider {
   void subscribe(AuthStateListener listener) {
     _subscribers.add(listener);
   }
-
+  @override
   void dispose(AuthStateListener listener) {
     for(var l in _subscribers) {
       if(l == listener)

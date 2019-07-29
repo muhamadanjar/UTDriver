@@ -8,10 +8,6 @@ class User {
   int saldo;
   User({this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo});
 
-  String get _username => username;
-  String get _password => password;
-
-  
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       username: json['username'],

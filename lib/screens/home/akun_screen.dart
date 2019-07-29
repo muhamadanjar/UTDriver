@@ -31,7 +31,6 @@ class _ProfileViewState extends State<ProfileView> {
     this.getUser();
   }
   void getUser() async{
-    var token = await _restDatasource.getPrefs('token');
     dynamic userData = await _restDatasource.getUser();
      setState(() {
        rating = userData.rating;
@@ -224,11 +223,27 @@ class _ProfileViewState extends State<ProfileView> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: Container(
-                        child: FlatButton(
-                          child: Text('Sign Out'),
-                          color: Colors.blue,
-                          onPressed: _signOut,
+
+                        child: GestureDetector(
+                          onTap: _signOut,
+                          child: Container(
+                              width: 200,
+                              height: 60,
+                              margin: EdgeInsets.only(bottom: 10),
+                              alignment: FractionalOffset.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.blue, width: 2),
+                                color: Colors.white,
+                                borderRadius:
+                                BorderRadius.all(const Radius.circular(4.0)),
+                              ),
+                              child: Text('Sign Out',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold))),
                         ),
+
                       ),
                     )
                   ],

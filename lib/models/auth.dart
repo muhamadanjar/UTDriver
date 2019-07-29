@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:ut_driver_app/utils/constans.dart';
 import 'package:ut_driver_app/models/user.dart';
-import 'package:ut_driver_app/utils/network_util.dart';
+
 
 class AuthModel extends Model {
   String errorMessage = "";

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ut_driver_app/models/history.dart';
 import 'package:ut_driver_app/utils/network_util.dart';
 import 'package:ut_driver_app/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,8 @@ class RestDatasource {
   static final GET_USER =  BASE_URL + "/user/details";
   static final SET_STATUS_ONLINE =  BASE_URL + "/user/changeonline";
   static final CHECK_JOB =  BASE_URL + "/driver/checkjob";
+  static final TRIP_HISTORY = BASE_URL + "/trip/history";
+
   static final _API_KEY = "somerandomkey";
   final token = 'token';
   
@@ -81,11 +84,18 @@ class RestDatasource {
       print(res);
     });
   }
-  Future<dynamic> changeStatusOnline(String status){
+  Future<dynamic> changeStatusOnline(String status) async{
+    var _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.get("token");
     var data = {
       'online' : status
     };
-    return _networkUtil.post(SET_STATUS_ONLINE,body: data).then((dynamic res){
+    print(data);
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    return _networkUtil.post(SET_STATUS_ONLINE,body: data,headers: headers).then((dynamic res){
       print(res);
     });
   }
@@ -100,5 +110,23 @@ class RestDatasource {
     _networkUtil.post(CHECK_JOB,body: body,headers: headers).then((dynamic res){
       print(res);
     });
+  }
+
+  Future<List<HisDetails>> getHistory() async{
+    var _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.get("token");
+    var headers ={
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    };
+    var history = new List<HisDetails>();
+    var response = await _networkUtil.get(TRIP_HISTORY,headers:headers);
+    (response["data"] as List).forEach((f){
+
+      var data = HisDetails.fromJson(f);
+      print(data.tripTotal);
+      history.add(data);
+    });
+    return history;
   }
 }   

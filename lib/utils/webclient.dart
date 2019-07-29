@@ -131,10 +131,10 @@ class WebClient {
           );
       }
 
-      print("URL: ${url}");
-      print("Body: $body");
-      print("Response Code: " + response.statusCode.toString());
-      print("Response Body: " + response.body.toString());
+//      print("URL: ${url}");
+//      print("Body: $body");
+//      print("Response Code: " + response.statusCode.toString());
+//      print("Response Body: " + response.body.toString());
 
       if (response.statusCode >= 400) {
         // if (response.statusCode == 404) return response.body; // Not Found Message
