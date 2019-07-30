@@ -23,7 +23,7 @@ class AuthenticationService {
 
   Future<User> login(String username,String password) async{
     var fetchUser = await _api.login(username, password);
-//    print("data login : ${fetchUser}");
+    print("data login : ${fetchUser}");
     var hasUser = fetchUser != null;
     if(hasUser){
       _userController.add(fetchUser);

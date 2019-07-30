@@ -122,9 +122,8 @@ class RestDatasource {
     var history = new List<HisDetails>();
     var response = await _networkUtil.get(TRIP_HISTORY,headers:headers);
     (response["data"] as List).forEach((f){
-
       var data = HisDetails.fromJson(f);
-      print(data.tripTotal);
+      print(f);
       history.add(data);
     });
     return history;

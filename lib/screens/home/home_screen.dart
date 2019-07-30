@@ -81,7 +81,7 @@ class HomeScreenState extends State<HomeScreen>{
 
   void updatePosition() async{
     try {
-      api.updateLocation(_position.latitude.toString(), _position.longitude.toString());  
+      await api.updateLocation(_position.latitude.toString(), _position.longitude.toString());
     } catch (e) {
       print('Error Position :'+ e);
     }
@@ -113,30 +113,41 @@ class HomeScreenState extends State<HomeScreen>{
       ),
 
       body:Container(
-        child:ListView(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-              color: Colors.white,
-              child: Column(
-                children:<Widget>[_buildGopayMenu()],
-              )
-            ),
-            Container(
-              color: Colors.white,
-              margin: EdgeInsets.only(top: 16.0),
-              child: Center(
-                child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
+        child:RefreshIndicator(
+          onRefresh: _reload,
+          child: ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                color: Colors.white,
+                child: Column(
+                  children:<Widget>[_buildGopayMenu()],
+                )
               ),
-            ),
-            _buildJob(),
-            
-          ],
+              Container(
+                color: Colors.white,
+                margin: EdgeInsets.only(top: 16.0),
+                child: Center(
+                  child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
+                ),
+              ),
+              _buildJob(),
+
+            ],
+          ),
         )
       ),
 
     );
 
+  }
+  Future<Null> _reload(){
+    updateLocation();
+    Completer<Null> completer = new Completer<Null>();
+    Timer timer = new Timer(new Duration(seconds: 3), () {
+      completer.complete();
+    });
+    return completer.future;
   }
 
   Widget _buildGopayMenu() {

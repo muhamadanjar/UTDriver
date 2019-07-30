@@ -30,12 +30,14 @@ class AuthStateProvider {
   void subscribe(AuthStateListener listener) {
     _subscribers.add(listener);
   }
-  @override
+
   void dispose(AuthStateListener listener) {
     for(var l in _subscribers) {
+      print("subcribers ${l}");
       if(l == listener)
          _subscribers.remove(l);
     }
+
   }
 
   void notify(AuthState state) {

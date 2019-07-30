@@ -144,9 +144,6 @@ class LoginScreenState extends State<LoginScreen>
     );
   }
 
-
-
-  
   Widget _input(String validation,bool ,String label,String hint, save ){
 
     return new TextFormField(
@@ -180,5 +177,11 @@ class LoginScreenState extends State<LoginScreen>
     await db.saveUser(user);
     var authStateProvider = new AuthStateProvider();
     authStateProvider.notify(AuthState.LOGGED_IN);
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
   }
 }
