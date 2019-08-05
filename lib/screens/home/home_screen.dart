@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ut_driver_app/components/job_card.dart';
+import 'package:ut_driver_app/components/job_widget.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/models/job.dart';
 class HomeScreen extends StatefulWidget {
@@ -131,7 +132,7 @@ class HomeScreenState extends State<HomeScreen>{
                   child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
                 ),
               ),
-              _buildJob(),
+              JobWidget(job:job)
 
             ],
           ),

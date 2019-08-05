@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+
+import 'package:ut_driver_app/components/custom_dialog.dart';
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -27,9 +29,9 @@ class _MapScreenState extends State<MapScreen> {
           title: Text('Lokasi Penumpang'),
           backgroundColor: Colors.blue[700],
       ),
-      body: 
-      Stack(
+      body:Stack(
         children: <Widget>[
+
           GoogleMap(
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
@@ -45,7 +47,17 @@ class _MapScreenState extends State<MapScreen> {
               child: Column(
                 children: <Widget>[
                   FloatingActionButton(
-                    onPressed: ()=>{},
+                    onPressed: (){
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => CustomDialog(
+                          title: "Success",
+                          description:
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                          buttonText: "Okay",
+                        ),
+                      );
+                    },
                     materialTapTargetSize: MaterialTapTargetSize.padded,
                     backgroundColor: Colors.blue,
                     child: const Icon(Icons.add_location, size: 36.0),
@@ -55,6 +67,20 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+          Positioned(
+            bottom: 10,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  color: Colors.blue,
+                  child: RaisedButton(onPressed: null),
+                ),
+              ],
+            ),
+          )
+
+
           
 
         ],
