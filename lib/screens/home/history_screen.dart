@@ -34,6 +34,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               child: CircularProgressIndicator(),
             ):
             RefreshIndicator(
+              key: _refreshIndicatorKey,
               onRefresh: _onRefresh,
               child: ListView.builder(
                   shrinkWrap: true,

@@ -45,6 +45,7 @@ class RoutePaths {
   static const String EarningDetail = 'earningdetail';
   static const String RecentTransaction = 'earningdetail';
   static const String Topup = 'topup';
+  static const String Promotion = 'promotion';
 
 
 }

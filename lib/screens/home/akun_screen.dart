@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 import '../../data/rest_ds.dart';
 class ProfilePage extends StatelessWidget {
@@ -27,11 +28,11 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    
     this.getUser();
   }
   void getUser() async{
     dynamic userData = await _restDatasource.getUser();
+    print(userData);
      setState(() {
        rating = userData.rating;
        driverName = userData.name;
@@ -62,12 +63,6 @@ class _ProfileViewState extends State<ProfileView> {
                 automaticallyImplyLeading: false,
                 pinned: true,
                 backgroundColor: Colors.blue,
-                // leading: GestureDetector(
-                //   child: IconButton(
-                //     onPressed: () => Navigator.pop(context),
-                //     icon: Icon(Icons.arrow_back, size: 26, color: Colors.white),
-                //   ),
-                // ),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.edit, size: 26, color: Colors.white),
@@ -80,7 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
                       Container(
                         margin: EdgeInsets.only(top: 100),
                         height: 300,
-                        decoration: BoxDecoration(color: Colors.black),
+                        decoration: BoxDecoration(color: secondaryColor),
                         child: Center(
                           child: ProfileWidget(
                             onPressed: () =>{},
@@ -100,7 +95,6 @@ class _ProfileViewState extends State<ProfileView> {
             key: _refreshIndicatorKey,
             onRefresh: (){},
             child: Scaffold(
-
               body: Container(
                 decoration: BoxDecoration(
                 color: Colors.white,
@@ -117,7 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
                               Text(
                                 "3,914",
                                 style: TextStyle(
-                                  fontSize: 34,
+                                  fontSize: 30,
                                 ),
                               ),
                               SizedBox(
@@ -137,23 +131,28 @@ class _ProfileViewState extends State<ProfileView> {
                                 border: Border(
                                     right: BorderSide(color: Colors.black12))),
                           ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                "4",
-                                style: TextStyle(
-                                  fontSize: 34,
+                          InkWell(
+                            onTap: (){
+                              print("a");
+                              Navigator.pushNamed(context, RoutePaths.Topup);
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  "4",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Years",
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Saldo",
+                                  style:TextStyle(color: Colors.grey, fontSize: 16),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -170,80 +169,74 @@ class _ProfileViewState extends State<ProfileView> {
                           style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                              width: 200,
-                              height: 60,
-                              margin: EdgeInsets.only(bottom: 10),
-                              alignment: FractionalOffset.center,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue, width: 2),
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(const Radius.circular(4.0)),
-                              ),
-                              child: Text('ADD DETAILS',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold))),
-                        ),
+                        Container(
+                            width: 200,
+                            height: 40,
+                            margin: EdgeInsets.only(bottom: 5),
+                            alignment: FractionalOffset.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue, width: 2),
+                              color: Colors.white,
+                              borderRadius:BorderRadius.all(const Radius.circular(2.0)),
+                            ),
+                            child: Text('ADD DETAILS',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
                         SizedBox(
                           height: 10,
                         ),
                       ],
                     ),
                     Divider(),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Compliements",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.normal),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Tanggapan",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              Text(
+                                "Lihat Semua",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "VIEW ALL",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
+                        ),
+                        makeCompliementsList("Cool Car"),
+                      ],
                     ),
-                    makeCompliementsList("Cool Car"),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: EdgeInsets.only(left:20,right: 20),
                       child: Container(
-
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: _signOut,
                           child: Container(
                               width: 200,
-                              height: 60,
+                              height: 38,
                               margin: EdgeInsets.only(bottom: 10),
                               alignment: FractionalOffset.center,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue, width: 2),
+                                border: Border.all(color: Colors.blue, width: 1),
                                 color: Colors.white,
                                 borderRadius:
-                                BorderRadius.all(const Radius.circular(4.0)),
+                                BorderRadius.all(const Radius.circular(2.0)),
                               ),
-                              child: Text('Sign Out',
+                              child: Text('Keluar',
                                   style: TextStyle(
                                       color: Colors.blue,
-                                      fontSize: 24,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold))),
                         ),
-
                       ),
                     )
                   ],
@@ -312,18 +305,15 @@ class ProfileWidget extends StatefulWidget {
   final IconData icon;
   final Function() onPressed;
 
-  const ProfileWidget(
-      {Key key, this.name, this.rating, this.icon, this.onPressed})
-      : super(key: key);
+  const ProfileWidget({Key key, this.name, this.rating, this.icon, this.onPressed}): super(key: key);
 
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
 }
-
 class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: widget.onPressed,
       child: Stack(
         children: <Widget>[
@@ -406,7 +396,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       ),
     );
   }
-
   int counter = 0;
   List<Widget> makeContainers(String title) {
     List<Container> compliementsList = [];

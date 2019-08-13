@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ut_driver_app/utils/constans.dart';
 
 class EarningsPage extends StatelessWidget {
   @override
@@ -22,15 +23,16 @@ class _EarningsViewState extends State<EarningsView> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
-        height: 560,
+        height: SizeConfig.blockHeight *100,
         child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 280,
+              height: SizeConfig.blockHeight * 34,
               decoration: BoxDecoration(
                 color: Colors.black,
               ),
@@ -51,7 +53,7 @@ class _EarningsViewState extends State<EarningsView> {
                             icon: Icon(
                               Icons.keyboard_backspace,
                               color: Colors.white,
-                              size: 28,
+                              size: 20,
                             ),
                           ),
                           SizedBox(
@@ -59,7 +61,7 @@ class _EarningsViewState extends State<EarningsView> {
                           ),
                           Text(
                             "Earnings",
-                            style: TextStyle(color: Colors.white, fontSize: 28),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           )
                         ],
                       ),
@@ -74,17 +76,17 @@ class _EarningsViewState extends State<EarningsView> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "This week",
+                    "Minggu ini",
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                   SizedBox(
-                    height: 14,
+                    height: 10,
                   ),
                   Text(
-                    "\$3.60",
+                    "\Rp. 3.60",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 44,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold),
                   )
                 ],
@@ -95,7 +97,7 @@ class _EarningsViewState extends State<EarningsView> {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 30),
                 width: double.infinity,
-                height: 320,
+                height: SizeConfig.blockHeight * 70,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -112,7 +114,7 @@ class _EarningsViewState extends State<EarningsView> {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: ListTile(
                         onTap: () =>
-                            Navigator.pushNamed(context, "/earnings_details"),
+                            Navigator.pushNamed(context, RoutePaths.EarningDetail),
                         title: Text("Earning Details",
                             style: TextStyle(fontSize: 20)),
                         subtitle: Container(
@@ -138,14 +140,11 @@ class _EarningsViewState extends State<EarningsView> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: ListTile(
-                        onTap: () =>
-                            Navigator.pushNamed(context, "/recent_transations"),
-                        title: Text("Recent transactions",
-                            style: TextStyle(fontSize: 20)),
+                        onTap: () =>Navigator.pushNamed(context, RoutePaths.RecentTransaction),
+                        title: Text("Recent transactions",style: TextStyle(fontSize: 20)),
                         subtitle: Container(
                             margin: EdgeInsets.only(top: 10),
-                            child: Text("\$3.60 balance",
-                                style: TextStyle(fontSize: 16))),
+                            child: Text("\$3.60 balance",style: TextStyle(fontSize: 16))),
                         leading: Container(
                           width: 40,
                           height: 40,
@@ -166,26 +165,23 @@ class _EarningsViewState extends State<EarningsView> {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: ListTile(
                         onTap: () =>
-                            Navigator.pushNamed(context, "/promotions"),
-                        title:
-                            Text("Promotions", style: TextStyle(fontSize: 20)),
+                            Navigator.pushNamed(context, RoutePaths.Promotion),
+                        title:Text("Promotions", style: TextStyle(fontSize: 20)),
                         subtitle: Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text("See what's available",
-                                style: TextStyle(fontSize: 16))),
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text("See what's available",style: TextStyle(fontSize: 16))
+                        ),
                         leading: Container(
                           width: 40,
                           height: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.blue, shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
                           child: Icon(
                             Icons.lightbulb_outline,
                             color: Colors.white,
                             size: 30,
                           ),
                         ),
-                        trailing: Icon(Icons.chevron_right,
-                            color: Colors.black, size: 20),
+                        trailing: Icon(Icons.chevron_right,color: Colors.black, size: 20),
                       ),
                     ),
                   ],

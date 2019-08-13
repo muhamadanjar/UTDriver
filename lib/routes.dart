@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ut_driver_app/screens/home/promotion_screen.dart';
 import 'package:ut_driver_app/screens/home/splash_screen.dart';
 import 'package:ut_driver_app/screens/login/login_screen.dart';
 import 'package:ut_driver_app/screens/home/map_screen.dart';
@@ -34,6 +35,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case RoutePaths.Topup:
         return MaterialPageRoute(builder: (_) => TopupScreen());
+      case RoutePaths.Promotion:
+        return MaterialPageRoute(builder: (_) => PromotionsPage());
       default:
         print(settings.name);
         return MaterialPageRoute(builder: (_) => NotFoundPage());

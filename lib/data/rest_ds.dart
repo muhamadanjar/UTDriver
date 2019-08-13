@@ -16,6 +16,7 @@ class RestDatasource {
   static final SET_STATUS_ONLINE =  BASE_URL + "/user/changeonline";
   static final CHECK_JOB =  BASE_URL + "/driver/checkjob";
   static final TRIP_HISTORY = BASE_URL + "/trip/history";
+  static final POST_UPLOAD_BUKTI = BASE_URL + "/post_upload_bukti";
 
   static final _API_KEY = "somerandomkey";
   final token = 'token';
@@ -127,5 +128,13 @@ class RestDatasource {
       history.add(data);
     });
     return history;
+  }
+  Future uploadbukti(data,token) async{
+    var headers ={
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    var response = await _networkUtil.post(POST_UPLOAD_BUKTI,body: data,headers: headers);
+    return response;
   }
 }   
