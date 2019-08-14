@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ut_driver_app/components/base_widget.dart';
+import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
+import 'package:ut_driver_app/data/bloc/login_view_bloc.dart';
+import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 import '../../data/rest_ds.dart';
@@ -50,7 +55,157 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    var userData = Provider.of<User>(context);
+    print("userData ${userData}");
     ctx = context;
+    final containerLogout = Padding(
+      padding: EdgeInsets.only(left:20,right: 20),
+      child: Container(
+        child: InkWell(
+          onTap: _signOut,
+          child: Container(
+              width: 200,
+              height: 38,
+              margin: EdgeInsets.only(bottom: 10),
+              alignment: FractionalOffset.center,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 1),
+                color: Colors.white,
+                borderRadius:
+                BorderRadius.all(const Radius.circular(2.0)),
+              ),
+              child: Text('Keluar',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold))),
+        ),
+      ),
+    );
+    final info = Padding(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(
+                "3,914",
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Trips",
+                style:
+                    TextStyle(color: Colors.grey, fontSize: 16),
+              ),
+            ],
+          ),
+          Container(
+            height: 60,
+            width: 1,
+            decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(color: Colors.black12))),
+          ),
+          InkWell(
+            onTap: (){;
+              Navigator.pushNamed(context, RoutePaths.Topup);
+            },
+            child: Column(
+              children: <Widget>[
+                Text(
+                  userData.toString(),
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Saldo",
+                  style:TextStyle(color: Colors.grey, fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    final body = Container(
+        decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20))),
+        child: ListView(
+          children: <Widget>[
+            info,
+            Divider(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Tell customers a little about yourself",
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    width: 200,
+                    height: 40,
+                    margin: EdgeInsets.only(bottom: 5),
+                    alignment: FractionalOffset.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue, width: 2),
+                      color: Colors.white,
+                      borderRadius:BorderRadius.all(const Radius.circular(2.0)),
+                    ),
+                    child: Text('ADD DETAILS',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+            Divider(),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Tanggapan",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      Text(
+                        "Lihat Semua",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                makeCompliementsList("Cool Car"),
+              ],
+            ),
+            containerLogout,
+          ],
+        ),
+    );
     return DefaultTabController(
       length: 1,
       child: NestedScrollView(
@@ -95,152 +250,10 @@ class _ProfileViewState extends State<ProfileView> {
             key: _refreshIndicatorKey,
             onRefresh: (){},
             child: Scaffold(
-              body: Container(
-                decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                "3,914",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Trips",
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 60,
-                            width: 1,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    right: BorderSide(color: Colors.black12))),
-                          ),
-                          InkWell(
-                            onTap: (){
-                              print("a");
-                              Navigator.pushNamed(context, RoutePaths.Topup);
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  "4",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Saldo",
-                                  style:TextStyle(color: Colors.grey, fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Tell customers a little about yourself",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                            width: 200,
-                            height: 40,
-                            margin: EdgeInsets.only(bottom: 5),
-                            alignment: FractionalOffset.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 2),
-                              color: Colors.white,
-                              borderRadius:BorderRadius.all(const Radius.circular(2.0)),
-                            ),
-                            child: Text('ADD DETAILS',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Tanggapan",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                "Lihat Semua",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                        makeCompliementsList("Cool Car"),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left:20,right: 20),
-                      child: Container(
-                        child: InkWell(
-                          onTap: _signOut,
-                          child: Container(
-                              width: 200,
-                              height: 38,
-                              margin: EdgeInsets.only(bottom: 10),
-                              alignment: FractionalOffset.center,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue, width: 1),
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(const Radius.circular(2.0)),
-                              ),
-                              child: Text('Keluar',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+              body: BaseWidget(
+                model: AuthBloc(api: Provider.of(context)),
+                onModelReady: (model)=>model.getUser(),
+                builder:(context,model,child)=>body,
               ),
             ),
           )),

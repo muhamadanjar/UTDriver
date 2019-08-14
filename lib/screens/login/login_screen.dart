@@ -111,15 +111,35 @@ class LoginScreenState extends State<LoginScreen>
                                     child: Column(
                                       children: <Widget>[
                                         Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: RaisedButton(
-                                                    child: Text("Login"),
-                                                    onPressed:_submit
-                                                  ),
-                                                  flex: 1,
-                                                ),
-                                              ],
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: model.busy ? CircularProgressIndicator():MaterialButton(
+                                                minWidth: 264,
+                                                height: 48,
+                                                color: Color(0xFF00bbff),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                child: Text("Log In",style:TextStyle(color: Colors.white),),
+                                                onPressed:(){
+                                                  final form = formKey.currentState;
+                                                  if (form.validate()) {
+                                                    form.save();
+                                                    print("data $_username $_password");
+
+                                                    model.login(_username, _password).then((user){
+                                                      onLoginSuccess(user);
+                                                    }).catchError((Object error)=>onLoginError(error));
+
+                                                    // model.login(_username, _password).then((user){
+                                                    //   Navigator.of(context).pushReplacementNamed(DashboardPage.tag);
+                                                    // });
+
+
+                                                  }
+                                                }
+                                              ),
+                                              flex: 1,
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(height: 15.0),    
                                       ],

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/components/job_widget.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/models/job.dart';
+import 'package:ut_driver_app/models/user.dart';
+import 'package:ut_driver_app/utils/constans.dart';
 class HomeScreen extends StatefulWidget {
   @override
 
@@ -98,7 +101,7 @@ class HomeScreenState extends State<HomeScreen>{
   @override
 
   Widget build(BuildContext context) {
-
+    var userData = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
 
@@ -220,7 +223,7 @@ class HomeScreenState extends State<HomeScreen>{
                     ],
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, 'topup'),
+                    onTap: () => Navigator.pushNamed(context, RoutePaths.Topup),
                     child: new Column(
 
                       mainAxisAlignment: MainAxisAlignment.center,
