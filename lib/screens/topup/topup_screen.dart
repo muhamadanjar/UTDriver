@@ -139,6 +139,7 @@ class _TopupScreenState extends State<TopupScreen> {
                     color: Colors.blue,
                     child: Text("Konfirmasi Pembayaran",style: TextStyle(color: Colors.white),),
                     onPressed: (){
+                      print(userData.token);
                       startUpload(userData.token);
                     },
                   ),
@@ -215,10 +216,10 @@ class _TopupScreenState extends State<TopupScreen> {
       return;
     }
     String fileName = tmpFile.path.split('/').last;
-    upload(fileName,token);
+    upload(fileName);
   }
 
-  upload(String fileName, String token) {
+  upload(String fileName,) {
     var data ={
         "image": base64Image,
         "name": fileName,
@@ -227,7 +228,7 @@ class _TopupScreenState extends State<TopupScreen> {
         "req_norek": noRek,
         "req_bank": noRek,
     };
-    rs.uploadbukti(data,token).then((result) {
+    rs.uploadbukti(data).then((result) {
       print("result ${result}");
       if(result['status']){
         setState(() {

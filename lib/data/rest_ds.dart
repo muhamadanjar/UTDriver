@@ -129,7 +129,10 @@ class RestDatasource {
     });
     return history;
   }
-  Future uploadbukti(data,token) async{
+  Future uploadbukti(data) async{
+    var _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.get("token");
+    print("Token : ${token}");
     var headers ={
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',

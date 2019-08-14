@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ut_driver_app/auth.dart';
+import 'package:ut_driver_app/components/base_widget.dart';
+import 'package:ut_driver_app/data/bloc/login_view_bloc.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/screens/login/login_screen_presenter.dart';
@@ -33,7 +36,6 @@ class LoginScreenState extends State<LoginScreen>
 
   void _submit() {
     final form = formKey.currentState;
-
     if (form.validate()) {
       setState(() => _isLoading = true);
       form.save();
@@ -63,7 +65,6 @@ class LoginScreenState extends State<LoginScreen>
       appBar: AppBar(
         title: Text('Driver Utama Trans'),
         elevation: 8.0,
-
         centerTitle: true,
         backgroundColor: Colors.transparent,
 
@@ -86,66 +87,66 @@ class LoginScreenState extends State<LoginScreen>
               ),
            ),
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Center(
-                  child: Form(
-                    key: formKey,
-                    child: Center(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: <Widget>[
-                          _input("required username",false,"Email",'Username',(value) => _username = value),
-                          SizedBox(width: 20.0,height: 20.0,),
-                          _input("required password",true,"Password",'Password',(value) => _password = value),
-                          new Padding(padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: OutlineButton(
-                                                child: Text("Login "),
-                                                onPressed:_submit
-                                              ),
-                                              flex: 1,
-                                            ),
+          BaseWidget<LoginViewModel>(
+            model: LoginViewModel(authenticationService: Provider.of(context)),
+            child: null,
+            builder: (context, model, child){
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: Center(
+                      child: Form(
+                        key: formKey,
+                        child: Center(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              _input("required username",false,"Email",'Username',(value) => _username = value),
+                              SizedBox(width: 20.0,height: 20.0,),
+                              _input("required password",true,"Password",'Password',(value) => _password = value),
+                              new Padding(padding: EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    child: Text("Login"),
+                                                    onPressed:_submit
+                                                  ),
+                                                  flex: 1,
+                                                ),
+                                              ],
+                                        ),
+                                        SizedBox(height: 15.0),    
+                                      ],
 
-
-
-                                          ],
                                     ),
-                                    SizedBox(height: 15.0),
 
-
-                                  
-                                  ],
-
+                                  ),
                                 ),
-
                               ),
-                            ),
+
+                            ],
+
                           ),
-
-                        ],
-
-                      ),
-                    ),
-                  )
-              ),
-            ),
+                        ),
+                      )
+                  ),
+                ),
+              );
+            },
           ),
+          
         ],
       ) ,
     );
   }
 
   Widget _input(String validation,bool ,String label,String hint, save ){
-
     return new TextFormField(
       decoration: InputDecoration(
           hintText: hint,
