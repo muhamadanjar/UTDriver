@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 import 'package:ut_driver_app/components/custom_dialog.dart';
+import 'package:ut_driver_app/utils/constans.dart';
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -24,6 +25,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
           title: Text('Lokasi Penumpang'),
@@ -31,7 +33,6 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body:Stack(
         children: <Widget>[
-
           GoogleMap(
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
@@ -60,7 +61,7 @@ class _MapScreenState extends State<MapScreen> {
                     },
                     materialTapTargetSize: MaterialTapTargetSize.padded,
                     backgroundColor: Colors.blue,
-                    child: const Icon(Icons.add_location, size: 36.0),
+                    child: const Icon(Icons.gps_fixed, size: 25.0),
                   ),
                   SizedBox(height: 16.0),
                 ],
@@ -68,13 +69,38 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           Positioned(
-            bottom: 10,
+            bottom: 5,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Container(
+                  width: SizeConfig.blockWidth*95,
+                  height: 100,
+                  margin: EdgeInsets.only(left: 10,right: 10),
                   color: Colors.blue,
-                  child: RaisedButton(onPressed: null),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.green[600],
+                        width: 220,
+                        child: MaterialButton(
+                          onPressed: (){},
+                          child: Text("Jemput",style: TextStyle(color: Colors.white),),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.black,
+                        width: 50,
+                        child: MaterialButton(
+                          onPressed: (){},
+                          
+                          child: Icon(Icons.share,color: Colors.white,),
+                        ),
+                      ),
+                      
+                    ],
+                  ),
                 ),
               ],
             ),

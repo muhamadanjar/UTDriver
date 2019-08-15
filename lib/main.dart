@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
         title: 'Driver Utama Trans',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: 'Montserrat'
         ),
         initialRoute: RoutePaths.Login,
         onGenerateRoute: Router.generateRoute,

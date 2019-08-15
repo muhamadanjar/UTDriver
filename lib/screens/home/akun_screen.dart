@@ -119,7 +119,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: Column(
               children: <Widget>[
                 Text(
-                  userData.toString(),
+                  userData.saldo.toString(),
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -168,7 +168,7 @@ class _ProfileViewState extends State<ProfileView> {
                       color: Colors.white,
                       borderRadius:BorderRadius.all(const Radius.circular(2.0)),
                     ),
-                    child: Text('ADD DETAILS',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
+                    child: Text('Tambah Keterangan',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
                 SizedBox(
                   height: 10,
                 ),
@@ -235,8 +235,9 @@ class _ProfileViewState extends State<ProfileView> {
                           child: ProfileWidget(
                             onPressed: () =>{},
                             icon: Icons.star,
-                            name: driverName.toString(),
-                            rating: rating.toString(),
+                            name: userData.name,
+                            rating: userData.rating.toString(),
+                            photoUrl: userData.photoUrl,
                           ),
                         ),
                       )
@@ -314,11 +315,11 @@ class _FunctionalButtonState extends State<FunctionalButton> {
 }
 
 class ProfileWidget extends StatefulWidget {
-  final String name, rating;
+  final String name, rating,photoUrl;
   final IconData icon;
   final Function() onPressed;
 
-  const ProfileWidget({Key key, this.name, this.rating, this.icon, this.onPressed}): super(key: key);
+  const ProfileWidget({Key key, this.name, this.rating, this.icon,this.photoUrl, this.onPressed}): super(key: key);
 
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
@@ -336,12 +337,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ClipOval(
-                child: Image.asset(
+                child: widget.photoUrl == null ? Image.asset(
                   "assets/avatar5.png",
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
-                ),
+                ):NetworkImage(widget.photoUrl),
               ),
               SizedBox(
                 height: 10,

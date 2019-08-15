@@ -5,8 +5,9 @@ class User {
   String token;
   final double rating;
   final int trip;
+  final String photoUrl;
   int saldo;
-  User({this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo});
+  User({this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo,this.photoUrl});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -17,6 +18,7 @@ class User {
       trip: json['trip'],
       token: json['api_token'],
       saldo: json['wallet'],
+      photoUrl: json['foto']
     );
   }
 
