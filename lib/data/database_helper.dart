@@ -61,5 +61,10 @@ class DatabaseHelper {
         res.isNotEmpty ? res.map((c) => User.fromJson(c)).toList() : [];
     return list;
   }
+  getClient(int id) async {
+    final dbClient = await db;
+    var res =await  dbClient.query("User", where: "id = ?", whereArgs: [id]);
+    return res.isNotEmpty ? User.fromJson(res.first) : Null ;
+  }
 
 }

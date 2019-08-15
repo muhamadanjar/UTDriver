@@ -180,16 +180,16 @@ class HomeScreenState extends State<HomeScreen>{
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  new Text(
+                   Text(
                     "Saldo",
                     style: new TextStyle(
                         fontSize: 18.0,
                         color: Colors.white,
                         fontFamily: "NeoSansBold"),
                   ),
-                  new Container(
+                  Container(
                     child: new Text(
-                      userData.saldo.toString(),
+                      "userData",
                       style: new TextStyle(
                           fontSize: 14.0,
                           color: Colors.white,

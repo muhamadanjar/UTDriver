@@ -26,6 +26,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    var iconButton = IconButton(icon: Icons.phone, onPressed: () {},);
     return Scaffold(
       appBar: AppBar(
           title: Text('Lokasi Penumpang'),
@@ -76,28 +77,30 @@ class _MapScreenState extends State<MapScreen> {
                 Container(
                   width: SizeConfig.blockWidth*95,
                   height: 100,
+                  color: Colors.black38,
                   margin: EdgeInsets.only(left: 10,right: 10),
-                  color: Colors.blue,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Container(
-                        color: Colors.green[600],
-                        width: 220,
-                        child: MaterialButton(
-                          onPressed: (){},
-                          child: Text("Jemput",style: TextStyle(color: Colors.white),),
-                        ),
+                      FlatButton(
+                        
+                        onPressed: null,
+                        child: iconButton,
                       ),
-                      Container(
-                        color: Colors.black,
-                        width: 50,
-                        child: MaterialButton(
-                          onPressed: (){},
-                          
-                          child: Icon(Icons.share,color: Colors.white,),
-                        ),
-                      ),
+                      MaterialButton(onPressed: null,
+                          color: Colors.redAccent,
+                          highlightColor: Colors.redAccent,
+                          splashColor: Colors.redAccent,
+                          minWidth: 150,
+                          elevation: 4,
+                          highlightElevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3)
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 35),
+                          child: Text("Mulai"),
+                          ),
+                      
                       
                     ],
                   ),
