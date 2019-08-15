@@ -19,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>{
   Geolocator _geolocator;
   Position _position;
-  GoogleMapController mapController;
   bool isSwitched = true;
   static const LatLng _center = const LatLng(3.6422756, 98.5294038);
   RestDatasource api = new RestDatasource();
@@ -101,7 +100,7 @@ class HomeScreenState extends State<HomeScreen>{
   @override
 
   Widget build(BuildContext context) {
-    var userData = Provider.of<User>(context);
+    final userData = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
 
@@ -190,7 +189,7 @@ class HomeScreenState extends State<HomeScreen>{
                   ),
                   new Container(
                     child: new Text(
-                      saldo,
+                      userData.saldo.toString(),
                       style: new TextStyle(
                           fontSize: 14.0,
                           color: Colors.white,
