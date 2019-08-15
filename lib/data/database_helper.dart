@@ -54,4 +54,12 @@ class DatabaseHelper {
     return res.length > 0? true: false;
   }
 
+  getAllClients() async {
+    final dbClient = await db;
+    var res = await dbClient.query("User");
+    List<User> list =
+        res.isNotEmpty ? res.map((c) => User.fromJson(c)).toList() : [];
+    return list;
+  }
+
 }

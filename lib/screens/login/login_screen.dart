@@ -20,7 +20,7 @@ class LoginScreenState extends State<LoginScreen>
     implements LoginScreenContract, AuthStateListener {
   BuildContext _ctx;
 
-  bool _isLoading = false;
+  
   final formKey = new GlobalKey<FormState>();
   
   final scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -34,15 +34,7 @@ class LoginScreenState extends State<LoginScreen>
     authStateProvider.subscribe(this);
   }
 
-  void _submit() {
-    final form = formKey.currentState;
-    if (form.validate()) {
-      setState(() => _isLoading = true);
-      form.save();
-      print(_username + " "+ _password);
-      _presenter.doLogin(_username, _password);
-    }
-  }
+  
 
   void _showSnackBar(String text) {
     scaffoldKey.currentState
@@ -187,13 +179,12 @@ class LoginScreenState extends State<LoginScreen>
   @override
   void onLoginError(String errorTxt) {
     _showSnackBar(errorTxt);
-    setState(() => _isLoading = false);
+    
   }
 
   @override
   void onLoginSuccess(User user) async {
     _showSnackBar(user.toString());
-    setState(() => _isLoading = false);
     var db = new DatabaseHelper();
     await db.saveUser(user);
     var authStateProvider = new AuthStateProvider();
