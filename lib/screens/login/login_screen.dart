@@ -45,7 +45,7 @@ class LoginScreenState extends State<LoginScreen>
   onAuthStateChanged(AuthState state) {
     print(state);
     if(state == AuthState.LOGGED_IN)
-      Navigator.of(_ctx).pushReplacementNamed(RoutePaths.Home);
+      Navigator.pushReplacementNamed(_ctx, RoutePaths.Home);
 
   }
 

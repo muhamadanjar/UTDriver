@@ -26,7 +26,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    var iconButton = IconButton(icon: Icons.phone, onPressed: () {},);
+    var iconButton = IconButton(icon: Icon(Icons.ac_unit), onPressed: () {},);
     return Scaffold(
       appBar: AppBar(
           title: Text('Lokasi Penumpang'),

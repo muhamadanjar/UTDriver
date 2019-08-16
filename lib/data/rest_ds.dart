@@ -57,6 +57,7 @@ class RestDatasource {
     var _prefs = await SharedPreferences.getInstance();
     var token = _prefs.get("token");
     var data = {'token':token};
+    print("rest api $data");
     var headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token}',

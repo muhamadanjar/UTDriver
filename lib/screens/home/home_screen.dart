@@ -3,8 +3,10 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:ut_driver_app/components/base_widget.dart';
 import 'package:ut_driver_app/components/job_card.dart';
 import 'package:ut_driver_app/components/job_widget.dart';
+import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/models/user.dart';
@@ -33,8 +35,7 @@ class HomeScreenState extends State<HomeScreen>{
     _geolocator = Geolocator();
     LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
     checkPermission();
-    getUser();
-    updateLocation();
+    // updateLocation();
 
     StreamSubscription positionStream = _geolocator.getPositionStream(locationOptions).listen((Position position) {
       _position = position;
@@ -47,29 +48,7 @@ class HomeScreenState extends State<HomeScreen>{
     _geolocator.checkGeolocationPermissionStatus(locationPermission: GeolocationPermission.locationWhenInUse)..then((status) { print('whenInUse status: $status'); });
   }
 
-  void updateLocation() async {
-    try {
-      Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
-      setState(() {
-        _position = newPosition;
-      });
-      updatePosition();
-    } catch (e) {
-      print('Error: ${e.toString()}');
-
-    }
-
-  }
-  void getUser() async{
-    try {
-      var getData =  await api.getUser();
-      setState(() {
-        saldo = "Rp. ${getData.saldo.toString()}";
-      });
-    } catch (e) {
-      print("Error : $e");
-    }
-  }
+  
   void _onChangeSwitch(bool value) async {
     try {
       print(value);
@@ -82,14 +61,6 @@ class HomeScreenState extends State<HomeScreen>{
     }
   }
 
-  void updatePosition() async{
-    try {
-      await api.updateLocation(_position.latitude.toString(), _position.longitude.toString());
-    } catch (e) {
-      print('Error Position :'+ e);
-    }
-    
-  }
   void checkJob() async{
     try {
       api.checkJob();
@@ -98,7 +69,6 @@ class HomeScreenState extends State<HomeScreen>{
     }
   }
   @override
-
   Widget build(BuildContext context) {
     final userData = Provider.of<User>(context);
     return Scaffold(
@@ -115,37 +85,46 @@ class HomeScreenState extends State<HomeScreen>{
         ],
       ),
 
-      body:Container(
-        child:RefreshIndicator(
-          onRefresh: _reload,
-          child: ListView(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                color: Colors.white,
-                child: Column(
-                  children:<Widget>[_buildGopayMenu()],
-                )
-              ),
-              Container(
-                color: Colors.white,
-                margin: EdgeInsets.only(top: 16.0),
-                child: Center(
-                  child: Text('Latitude: ${_position != null ? _position.latitude.toString() : '0'}, Longitude: ${_position != null ? _position.longitude.toString() : '0'}'),
+      body:BaseWidget(
+        model: AuthBloc(api: Provider.of(context)),
+        onModelReady: (model) async{
+          print("Ready Model");
+          Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
+          print("position $newPosition");
+          model.updatePosition(newPosition);
+        },
+        builder:(context,model,child)=> Container(
+          child:RefreshIndicator(
+            onRefresh: _reload,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                  color: Colors.white,
+                  child: Column(
+                    children:<Widget>[_buildGopayMenu()],
+                  )
                 ),
-              ),
-              JobWidget(job:job)
+                Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(top: 16.0),
+                  child: Center(
+                    child: Text('Latitude: ${model.userPosition != null ? model.userPosition.latitude.toString() : '0'}, Longitude: ${model.userPosition != null ? model.userPosition.longitude.toString() : '0'}'),
+                  ),
+                ),
+                JobWidget(job:job)
 
-            ],
-          ),
-        )
+              ],
+            ),
+          )
+        ),
       ),
 
     );
 
   }
   Future<Null> _reload(){
-    updateLocation();
+
     Completer<Null> completer = new Completer<Null>();
     Timer timer = new Timer(new Duration(seconds: 3), () {
       completer.complete();
@@ -290,4 +269,9 @@ class HomeScreenState extends State<HomeScreen>{
     );
   }
   
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

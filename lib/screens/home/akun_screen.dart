@@ -33,7 +33,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    this.getUser();
+    
   }
   void getUser() async{
     dynamic userData = await _restDatasource.getUser();
@@ -119,7 +119,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: Column(
               children: <Widget>[
                 Text(
-                  userData.saldo.toString(),
+                  "userData",
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -235,9 +235,9 @@ class _ProfileViewState extends State<ProfileView> {
                           child: ProfileWidget(
                             onPressed: () =>{},
                             icon: Icons.star,
-                            name: userData.name,
-                            rating: userData.rating.toString(),
-                            photoUrl: userData.photoUrl,
+                            name: "userData.name",
+                            rating: "userData.rating.toString()",
+                            photoUrl: null,
                           ),
                         ),
                       )
