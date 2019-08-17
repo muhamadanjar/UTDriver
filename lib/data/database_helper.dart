@@ -57,6 +57,7 @@ class DatabaseHelper {
   getAllClients() async {
     final dbClient = await db;
     var res = await dbClient.query("User");
+    print("res $res");
     List<User> list =
         res.isNotEmpty ? res.map((c) => User.fromJson(c)).toList() : [];
     return list;
@@ -64,6 +65,7 @@ class DatabaseHelper {
   getClient(int id) async {
     final dbClient = await db;
     var res =await  dbClient.query("User", where: "id = ?", whereArgs: [id]);
+    print("getClient ${res.first}");
     return res.isNotEmpty ? User.fromJson(res.first) : Null ;
   }
 

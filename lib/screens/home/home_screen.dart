@@ -61,13 +61,7 @@ class HomeScreenState extends State<HomeScreen>{
     }
   }
 
-  void checkJob() async{
-    try {
-      api.checkJob();
-    } catch (e) {
-      print(e);
-    }
-  }
+  
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<User>(context);
@@ -92,6 +86,7 @@ class HomeScreenState extends State<HomeScreen>{
           Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
           print("position $newPosition");
           model.updatePosition(newPosition);
+          // model.checkJob();
         },
         builder:(context,model,child)=> Container(
           child:RefreshIndicator(
@@ -131,83 +126,63 @@ class HomeScreenState extends State<HomeScreen>{
     });
     return completer.future;
   }
-
   Widget _buildGopayMenu() {
-    return new Container(
-        height: 120.0,
-        decoration: new BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
-            ),
-            borderRadius: new BorderRadius.all(new Radius.circular(3.0))
-        ),
-        child: new Column(
-          children: <Widget>[
-            new Container(
-              padding: EdgeInsets.all(12.0),
-              decoration: new BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
-                  ),
-                  borderRadius: new BorderRadius.only(
-                      topLeft: new Radius.circular(3.0),
-                      topRight: new Radius.circular(3.0))),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                   Text(
-                    "Saldo",
-                    style: new TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
-                        fontFamily: "NeoSansBold"),
-                  ),
-                  Container(
-                    child: new Text(
-                      "userData",
-                      style: new TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontFamily: "NeoSansBold"),
-                    ),
-                  )
-                ],
+    return Consumer<User>(
+          builder:(context,model,_)=> new Container(
+          height: 120.0,
+          decoration: new BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
               ),
-            ),
-            new Container(
-              padding: EdgeInsets.only(left: 32.0, right: 32.0, top: 12.0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Image.asset(
-                        "assets/icons/icon_transfer.png",
-                        width: 32.0,
-                        height: 32.0,
+              borderRadius: new BorderRadius.all(new Radius.circular(3.0))
+          ),
+          child: new Column(
+            children: <Widget>[
+              new Container(
+                padding: EdgeInsets.all(12.0),
+                decoration: new BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
+                    ),
+                    borderRadius: new BorderRadius.only(
+                        topLeft: new Radius.circular(3.0),
+                        topRight: new Radius.circular(3.0))),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                     Text(
+                      "Saldo",
+                      style: new TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.white,
                       ),
-                      new Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+                    ),
+                    Container(
+                      child: new Text(
+                        "model.saldo.toString()",
+                        style: new TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.white,
+                        ),
                       ),
-                      new Text(
-                        "Transfer",
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      )
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, RoutePaths.Topup),
-                    child: new Column(
-
+                    )
+                  ],
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.only(left: 32.0, right: 32.0, top: 12.0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         new Image.asset(
-                          "assets/icons/icon_saldo.png",
+                          "assets/icons/icon_transfer.png",
                           width: 32.0,
                           height: 32.0,
                         ),
@@ -215,60 +190,60 @@ class HomeScreenState extends State<HomeScreen>{
                           padding: EdgeInsets.only(top: 10.0),
                         ),
                         new Text(
-                          "Isi Saldo",
+                          "Transfer",
                           style: TextStyle(color: Colors.white, fontSize: 12.0),
-                  
                         )
                       ],
                     ),
-                  ),
-                  
-                  
-                  new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Image.asset(
-                        "assets/icons/icon_menu.png",
-                        width: 32.0,
-                        height: 32.0,
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, RoutePaths.Topup),
+                      child: new Column(
+
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new Image.asset(
+                            "assets/icons/icon_saldo.png",
+                            width: 32.0,
+                            height: 32.0,
+                          ),
+                          new Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                          ),
+                          new Text(
+                            "Isi Saldo",
+                            style: TextStyle(color: Colors.white, fontSize: 12.0),
+                    
+                          )
+                        ],
                       ),
-                      new Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                      ),
-                      new Text(
-                        "Lainnya",
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ));
-  }
-  Widget _buildJob(){
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: <Widget>[
-          SizedBox(height: 10.0),
-          ListView(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            children: <Widget>[
-              Hero(
-                tag: 'driver-job',
-                child: JobCard(job: job),
+                    ),
+                    
+                    
+                    new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Image.asset(
+                          "assets/icons/icon_menu.png",
+                          width: 32.0,
+                          height: 32.0,
+                        ),
+                        new Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                        ),
+                        new Text(
+                          "Lainnya",
+                          style: TextStyle(color: Colors.white, fontSize: 12.0),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               )
             ],
-          )
-
-        ],
-      ),
+          )),
     );
   }
-  
+
   @override
   void dispose() {
     // TODO: implement dispose

@@ -48,7 +48,7 @@ class RestDatasource {
   Future<dynamic> logout(){
     var db = new DatabaseHelper();
     SharedPreferences.getInstance().then((pref){
-      pref.clear();
+      pref.remove('token');
       db.deleteUsers();
     });
   }

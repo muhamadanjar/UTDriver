@@ -29,7 +29,6 @@ class NetworkUtil {
           print(res);
           throw new Exception("Error while fetching data : " + res);
         }
-        
         return _decoder.convert(res);
       });
     }
