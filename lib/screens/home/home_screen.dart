@@ -127,7 +127,7 @@ class HomeScreenState extends State<HomeScreen>{
     return completer.future;
   }
   Widget _buildGopayMenu() {
-    return Consumer<User>(
+    return Consumer<AuthBloc>(
           builder:(context,model,_)=> new Container(
           height: 120.0,
           decoration: new BoxDecoration(
@@ -163,7 +163,7 @@ class HomeScreenState extends State<HomeScreen>{
                     ),
                     Container(
                       child: new Text(
-                        "model.saldo.toString()",
+                        "",
                         style: new TextStyle(
                             fontSize: 14.0,
                             color: Colors.white,

@@ -38,7 +38,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
     
       Future getUser() async {
         setBusy(true);
-        var d = _databaseHelper.getClient(1);
+        // var d = _databaseHelper.getClient(1);
         _api.getUser();
         setBusy(false);
       }
@@ -78,12 +78,13 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
         setBusy(true);
         notifyListeners();
         final Map<String, dynamic> authData = {
-          'email': email,
+          'username': email,
           'password': password,
           'returnSecureToken': true
         };
         http.Response response;
         if (mode == AuthMode.Login) {
+          print(json.encode(authData));
           response = await http.post(
             "${apiURL}/login",
             body: json.encode(authData),
@@ -120,6 +121,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
           prefs.setString('userEmail', email);
           prefs.setString('userId', responseData['data']['localId']);
           prefs.setString('expiryTime', expiryTime.toIso8601String());
+          
         
         } else if (responseData.containsKey('error')){
           if(responseData['message'] == 'EMAIL_EXISTS') {
@@ -132,7 +134,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
         }
         setBusy(false);
         notifyListeners();
-        return {'success': !hasError, 'message': message};
+        return {'success': !hasError, 'message': message,'data':_authenticatedUser};
       }
     
       void autoAuthenticate() async {
@@ -150,7 +152,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
           final String userEmail = prefs.getString('userEmail');
           final String userId = prefs.getString('userId');
           final int tokenLifespan = parsedExpiryTime.difference(now).inSeconds;
-          _authenticatedUser = User(id: int.parse(userId), email: userEmail, token: token);
+          _authenticatedUser = User(id: userId, email: userEmail, token: token);
           _userSubject.add(true);
           setAuthTimeout(tokenLifespan);
           notifyListeners();
@@ -166,6 +168,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
         prefs.remove('token');
         prefs.remove('userEmail');
         prefs.remove('userId');
+        _databaseHelper.deleteUsers();
       }
     
       void setAuthTimeout(int time) {

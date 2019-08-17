@@ -1,5 +1,5 @@
 class User {
-  final int id;
+  final String id;
   final String email;
   final String username;
   final String password;
@@ -13,7 +13,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id:int.parse(json['id']),
+      id:json['id'],
       username: json['username'],
       email: json['username'],
       password: json['password'],

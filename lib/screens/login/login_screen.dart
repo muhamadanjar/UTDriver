@@ -30,6 +30,7 @@ class LoginScreenState extends State<LoginScreen>
   final formKey = new GlobalKey<FormState>();  
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final Map<String, dynamic> _formData = {
+    'username': null,
     'email': null,
     'password': null,
     'acceptTerms': false
@@ -68,9 +69,9 @@ class LoginScreenState extends State<LoginScreen>
     //   }).catchError((Object error)=>onLoginError(error));
     Map<String, dynamic> successInformation;
     print(_formData);
-    successInformation = await authenticate(_formData['email'], _formData['password'],_authMode);
-    print(successInformation);
-    if (successInformation['status']) {
+    successInformation = await authenticate(_formData['username'], _formData['password'],_authMode);
+    if (successInformation['success']) {
+      onLoginSuccess(successInformation['data']);
       // Navigator.pushReplacementNamed(context, '/');
     } else {
       showDialog(
@@ -211,6 +212,7 @@ class LoginScreenState extends State<LoginScreen>
       },
       onSaved: (String value) {
         _formData['email'] = value;
+        _formData['username'] = value;
       },
     );
   }

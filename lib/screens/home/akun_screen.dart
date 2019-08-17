@@ -35,23 +35,14 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     
   }
-  void getUser() async{
-    dynamic userData = await _restDatasource.getUser();
-    print(userData);
-     setState(() {
-       rating = userData.rating;
-       driverName = userData.name;
-     });
-  }
+  
   void _signOut() async{
     print('Request Sign out');
     _restDatasource.logout();
     Navigator.pushReplacementNamed(ctx, RoutePaths.Login);
 
   }
-  void _refresh() {
-    return getUser();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +227,7 @@ class _ProfileViewState extends State<ProfileView> {
                             onPressed: () =>{},
                             icon: Icons.star,
                             name: "userData.name",
-                            rating: "userData.rating.toString()",
+                            rating: "1.1",
                             photoUrl: null,
                           ),
                         ),
