@@ -17,16 +17,7 @@ class AuthenticationService {
 
   Stream<User> get user => _userController.stream;
 
-  Future<User> getUser() async {
-    var d = _databaseHelper.getAllClients();
-    print(d);
-    var fetchedUser = await _api.getUser();
-    var hasUser = fetchedUser != null;
-    if (hasUser) {
-      _userController.add(fetchedUser);
-    }
-    return fetchedUser;
-  }
+  
 
   Future<User> login(String username,String password) async{
     var fetchUser = await _api.login(username, password);

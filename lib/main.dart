@@ -15,8 +15,6 @@ class MyApp extends StatelessWidget {
       providers: providers,
       child: Consumer<AuthBloc>(
           builder:(ctx,auth,_){ 
-            if(auth.isAuth) print(auth.isAuth);
-
             return MaterialApp(
             title: 'Driver Utama Trans',
             theme: ThemeData(

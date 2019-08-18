@@ -17,12 +17,7 @@ class LoginViewModel extends BaseModel {
     return success;
   }
 
-  Future<User> getUser() async {
-    setBusy(true);
-    var success = await _authenticationService.getUser();
-    setBusy(false);
-    return success;
-  }
+  
 
 
 }

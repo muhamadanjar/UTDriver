@@ -23,11 +23,7 @@ class TopUpBloc extends BaseModel {
     super.dispose();
   }
 
-  Future getUser(String userId) async {
-    setBusy(true);
-    _api.getUser();
-    setBusy(false);
-  }
+  
 
   konfirmasi(data){
     setBusy(true);

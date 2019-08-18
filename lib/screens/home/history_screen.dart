@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/base_widget.dart';
+import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/models/history.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 import 'package:intl/intl.dart';
@@ -26,13 +27,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
         title: Text('History'),
 
       ),
-      body: BaseWidget<HistoryBloc>(
-          model: HistoryBloc(api: Provider.of(context)),
-          onModelReady: (model)=>model.getHistory(1),
-          builder: (context,model,child)=>model.busy ?
-            Center(
-              child: CircularProgressIndicator(),
-            ):
+      body: Consumer<HistoryBloc>(
+          builder: (context,model,child){
+            var token =Provider.of<AuthBloc>(context).token;
+            
+            model.getHistory(token);
+            return
             RefreshIndicator(
               key: _refreshIndicatorKey,
               onRefresh: _onRefresh,
@@ -42,12 +42,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   physics: ClampingScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-
                     return HisCard(hisDetails : model.history[index]);
                   }
               ) ,
-            )
-
+            );
+          }
 
       ),
 

@@ -1,15 +1,15 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/widgets.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/data/enum/authMode.dart';
-import 'package:ut_driver_app/models/http_exception.dart';
+
 import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/utils/constans.dart';
@@ -44,6 +44,9 @@ class AuthBloc extends BaseModel{
         }
         return null;
       }
+      String get userId {
+        return _userId;
+      }
       User get user => _authenticatedUser;
 
       PublishSubject<bool> get userSubject {
@@ -52,9 +55,21 @@ class AuthBloc extends BaseModel{
 
       PublishSubject<User> get userDataSubject => _userDataSubject;
       Future getUser() async {
+        final prefs = await SharedPreferences.getInstance();
+        if (!prefs.containsKey('userData')) {
+          return false;
+        }
+        final extractedUserData = json.decode(prefs.getString('userData')) as Map<String, Object>;
+        final expiryDate = DateTime.parse(extractedUserData['expiryDate']);
+
+        if (expiryDate.isBefore(DateTime.now())) {
+          return false;
+        }
+        _token = extractedUserData['token'];
+        _userId = extractedUserData['userId'];
+
         setBusy(true);
-        // var d = _databaseHelper.getClient(1);
-        _api.getUser();
+        await _api.getUser(_token);
         setBusy(false);
       }
     
@@ -93,6 +108,7 @@ class AuthBloc extends BaseModel{
         bool hasErrors = true;
         String message = 'Something went wrong.';
         try {
+          setBusy(true);
           final formData = json.encode(
               {
                 'username': email,
@@ -123,7 +139,7 @@ class AuthBloc extends BaseModel{
               ),
             );
             _autoLogout();
-            notifyListeners();
+            setBusy(false);
             final prefs = await SharedPreferences.getInstance();
             final userData = json.encode({
               'token': _token,
@@ -131,7 +147,7 @@ class AuthBloc extends BaseModel{
               'expiryDate': _expiryDate.toIso8601String(),
             },);
             prefs.setString('userData', userData);
-            return {'success':!hasErrors,'data':_authenticatedUser};    
+            return {'success':!hasErrors,'data':_authenticatedUser,'message':message};    
           }
           
         } catch (e) {

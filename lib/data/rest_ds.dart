@@ -54,9 +54,7 @@ class RestDatasource {
     });
   }
 
-  Future<dynamic> getUser() async{
-    var _prefs = await SharedPreferences.getInstance();
-    var token = _prefs.get("token");
+  Future<dynamic> getUser(String token) async{
     var data = {'token':token};
     print("rest api $data");
     var headers = {

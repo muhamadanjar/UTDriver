@@ -52,7 +52,11 @@ class _ProfileViewState extends State<ProfileView> {
       padding: EdgeInsets.only(left:20,right: 20),
       child: Container(
         child: InkWell(
-          onTap: _signOut,
+          onTap: (){
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed('/');
+            Provider.of<AuthBloc>(context, listen: false).logout();
+          },
           child: Container(
               width: 200,
               height: 38,
