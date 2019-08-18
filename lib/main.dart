@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/routes.dart';
+import 'package:ut_driver_app/screens/home/index_screen.dart';
 import 'package:ut_driver_app/screens/home/splash_screen.dart';
 import 'package:ut_driver_app/screens/login/login_screen.dart';
 import 'package:ut_driver_app/utils/constans.dart';
@@ -13,19 +14,22 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: providers,
       child: Consumer<AuthBloc>(
-          builder:(ctx,auth,_)=> MaterialApp(
+          builder:(ctx,auth,_){ 
+            if(auth.isAuth) print(auth.isAuth);
+
+            return MaterialApp(
             title: 'Driver Utama Trans',
             theme: ThemeData(
               primarySwatch: Colors.blue,
               fontFamily: 'Montserrat'
             ),
-            home: FutureBuilder(
-              future: auth.autoAuthenticate(),
-              builder: (ctx, authResultSnapshot) =>authResultSnapshot.connectionState ==ConnectionState.waiting
-                      ? SplashScreen(): LoginScreen(),
-            ),
+            home: auth.isAuth ? IndexHome()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? SplashScreen(): LoginScreen(),
+                    ),
             onGenerateRoute: Router.generateRoute,
-        ),
+          );},
       ),
     );
   }

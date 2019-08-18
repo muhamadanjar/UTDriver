@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/screens/home/promotion_screen.dart';
 import 'package:ut_driver_app/screens/home/splash_screen.dart';
 import 'package:ut_driver_app/screens/login/login_screen.dart';
@@ -12,7 +13,7 @@ import 'package:ut_driver_app/screens/home/recent_transactions.dart';
 import 'package:ut_driver_app/screens/global/notfound.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 
-class Router {
+class Router extends AuthBloc{
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePaths.Login:

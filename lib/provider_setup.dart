@@ -8,7 +8,6 @@ import 'models/user.dart';
 import 'utils/authentication.dart';
 import 'data/rest_ds.dart';
 import 'utils/connectivity.dart';
-
 import 'data/enum/connection_status.dart';
 
 

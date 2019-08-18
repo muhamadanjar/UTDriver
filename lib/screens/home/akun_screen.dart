@@ -43,11 +43,10 @@ class _ProfileViewState extends State<ProfileView> {
 
   }
   
-
   @override
   Widget build(BuildContext context) {
     var userData = Provider.of<AuthBloc>(context);
-    print("userData ${userData.user}");
+    print("userData ${userData.userDataSubject}");
     ctx = context;
     final containerLogout = Padding(
       padding: EdgeInsets.only(left:20,right: 20),
@@ -110,7 +109,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: Column(
               children: <Widget>[
                 Text(
-                  "userData",
+                  "model.user",
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -127,75 +126,6 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ],
       ),
-    );
-    final body = Container(
-        decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: ListView(
-          children: <Widget>[
-            info,
-            Divider(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Tell customers a little about yourself",
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                    width: 200,
-                    height: 40,
-                    margin: EdgeInsets.only(bottom: 5),
-                    alignment: FractionalOffset.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 2),
-                      color: Colors.white,
-                      borderRadius:BorderRadius.all(const Radius.circular(2.0)),
-                    ),
-                    child: Text('Tambah Keterangan',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-            Divider(),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Tanggapan",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Text(
-                        "Lihat Semua",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                makeCompliementsList("Cool Car"),
-              ],
-            ),
-            containerLogout,
-          ],
-        ),
     );
     return DefaultTabController(
       length: 1,
@@ -245,7 +175,77 @@ class _ProfileViewState extends State<ProfileView> {
               body: BaseWidget(
                 model: AuthBloc(api: Provider.of(context)),
                 onModelReady: (model)=>model.getUser(),
-                builder:(context,model,child)=>body,
+                builder:(context,model,child){
+                  return Container(
+                    decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: ListView(
+                      children: <Widget>[
+                        info,
+                        Divider(),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Tell customers a little about yourself",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                                width: 200,
+                                height: 40,
+                                margin: EdgeInsets.only(bottom: 5),
+                                alignment: FractionalOffset.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blue, width: 2),
+                                  color: Colors.white,
+                                  borderRadius:BorderRadius.all(const Radius.circular(2.0)),
+                                ),
+                                child: Text('Tambah Keterangan',style: TextStyle(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.bold))),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                        Divider(),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "Tanggapan",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    "Lihat Semua",
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            makeCompliementsList("Cool Car"),
+                          ],
+                        ),
+                        containerLogout,
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           )),
