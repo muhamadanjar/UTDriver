@@ -15,7 +15,7 @@ class JobCard extends StatelessWidget {
       height: 210.0,
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       child:Material(
-        color: secondaryColor,
+        color: primaryColor,
         elevation: 8.0 ,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: InkWell(
@@ -36,13 +36,7 @@ class JobCard extends StatelessWidget {
                               cityName: 'Medan',
                               time: '120min',
                             ),
-                            Spacer(),
-                            Icon(
-                              Icons.crop_square,
-                              color: Colors.white,
-                              // size: 40.0,
-                            ),
-                            Spacer(),
+                            
                             LocationWidget(
                               cityName: 'Medan',
                               time: '120min',

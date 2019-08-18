@@ -78,6 +78,7 @@ flutter:
     - assets/user2.jpg
     - assets/google_map_vector.png
     - assets/logo.png
+    - assets/driver.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

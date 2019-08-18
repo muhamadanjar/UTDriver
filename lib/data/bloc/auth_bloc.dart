@@ -14,15 +14,17 @@ import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 import '../../models/base_model.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
-class AuthBloc extends BaseModel with ConnectedProductsModel {
+class AuthBloc extends BaseModel{
   DatabaseHelper _databaseHelper = new DatabaseHelper();
   RestDatasource _api;
-  AuthBloc({@required RestDatasource api}):_api = api;  
+  AuthBloc({RestDatasource api}):_api = api;  
   Position userPosition;
+  User _authenticatedUser;
   bool userStatus;
   Job job;
   Timer _authTimer;
   PublishSubject<bool> _userSubject = PublishSubject();
+  PublishSubject<User> _userDataSubject = PublishSubject();
 
       @override
       void dispose() {
@@ -34,8 +36,8 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
       PublishSubject<bool> get userSubject {
         return _userSubject;
       }
-      
-    
+
+      PublishSubject<User> get userDataSubject => _userDataSubject;
       Future getUser() async {
         setBusy(true);
         // var d = _databaseHelper.getClient(1);
@@ -106,16 +108,16 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
           hasError = false;
           message = 'Authentication succeeded!';
           _authenticatedUser = User(
-              id: responseData['localId'],
+              id: responseData['data']['user']['localId'],
               email: email,
               token: responseData['data']['token']);
+          _userDataSubject.add(_authenticatedUser);
           // var ex = int.parse(responseData['expiresIn']);
           var ex = 3600;
           setAuthTimeout(ex);
           _userSubject.add(true);
           final DateTime now = DateTime.now();
-          final DateTime expiryTime =
-              now.add(Duration(seconds: ex));
+          final DateTime expiryTime = now.add(Duration(seconds: ex));
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', responseData['data']['token']);
           prefs.setString('userEmail', email);
@@ -137,7 +139,7 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
         return {'success': !hasError, 'message': message,'data':_authenticatedUser};
       }
     
-      void autoAuthenticate() async {
+      Future autoAuthenticate() async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final String token = prefs.getString('token');
         final String expiryTimeString = prefs.getString('expiryTime');
@@ -176,8 +178,5 @@ class AuthBloc extends BaseModel with ConnectedProductsModel {
       }
     
 }
-    
-mixin ConnectedProductsModel on ChangeNotifier {
-  User _authenticatedUser;
-}
+
 

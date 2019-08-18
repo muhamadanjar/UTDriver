@@ -3,6 +3,7 @@ import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/utils/prefs.dart';
 
 
+import 'data/bloc/auth_bloc.dart';
 import 'models/user.dart';
 import 'utils/authentication.dart';
 import 'data/rest_ds.dart';
@@ -32,6 +33,9 @@ List<SingleChildCloneableWidget> uiConsumableProviders = [
 
   StreamProvider<User>(
     builder: (context) => Provider.of<AuthenticationService>(context, listen: false).user,
+  ),
+  ChangeNotifierProvider.value(
+    value: AuthBloc(),
   ),
   StreamProvider<ConnectivityStatus>.value(
     value: ConnectivityService().connectivityController.stream,

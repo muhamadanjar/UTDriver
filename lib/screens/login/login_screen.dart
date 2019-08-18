@@ -15,7 +15,7 @@ import 'package:ut_driver_app/utils/constans.dart';
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+    
     return new LoginScreenState();
   }
 }
@@ -60,25 +60,17 @@ class LoginScreenState extends State<LoginScreen>
       return;
     }
     formKey.currentState.save();
-    
-    // if (form.validate()) {
-    //   form.save();
-    //   print("data $_username $_password");
-    //   model.login(_username, _password).then((user){
-    //     onLoginSuccess(user);
-    //   }).catchError((Object error)=>onLoginError(error));
     Map<String, dynamic> successInformation;
-    print(_formData);
     successInformation = await authenticate(_formData['username'], _formData['password'],_authMode);
     if (successInformation['success']) {
-      onLoginSuccess(successInformation['data']);
+      // onLoginSuccess(successInformation['data']);
       // Navigator.pushReplacementNamed(context, '/');
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('An Error Occurred!'),
+            title: Text('Terjadi Kesalahan!'),
             content: Text(successInformation['message']),
             actions: <Widget>[
               FlatButton(
@@ -98,8 +90,8 @@ class LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state) {
     print(state);
-    if(state == AuthState.LOGGED_IN)
-      Navigator.pushReplacementNamed(_ctx, RoutePaths.Home);
+    // if(state == AuthState.LOGGED_IN)
+      // Navigator.pushReplacementNamed(_ctx, RoutePaths.Home);
 
   }
 
@@ -135,7 +127,7 @@ class LoginScreenState extends State<LoginScreen>
             height: 220.0,
             width: 110.0,
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('assets/monkey.gif'),fit: BoxFit.cover),
+              image: DecorationImage(image: AssetImage('assets/driver.png'),fit: BoxFit.cover),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(500.0),
                   bottomRight: Radius.circular(500.0)

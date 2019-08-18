@@ -128,7 +128,6 @@ class AuthModel extends Model {
     String _username = username;
     String _password = password;
 
-    // TODO: API LOGIN CODE HERE
     await Future.delayed(Duration(seconds: 3));
     print("Logging In => $_username, $_password");
 

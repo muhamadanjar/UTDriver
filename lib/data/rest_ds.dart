@@ -36,13 +36,14 @@ class RestDatasource {
     var headers ={
       'Accept': 'application/json',
     };
-    return _networkUtil.post(LOGIN_URL,body:data,headers: headers).then((dynamic res) async {
-//      print("response from login ${res}");
-      if(res["error"] == null) throw new Exception(res["message"]);
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', res['data']['token']);
-      return new User.fromJson(res["data"]['user']);
-    });
+    return _networkUtil.post(LOGIN_URL,body:data,headers:headers);
+//     return _networkUtil.post(LOGIN_URL,body:data,headers: headers).then((dynamic res) async {
+// //      print("response from login ${res}");
+//       if(res["error"] == null) throw new Exception(res["message"]);
+//       final prefs = await SharedPreferences.getInstance();
+//       prefs.setString('token', res['data']['token']);
+//       return new User.fromJson(res["data"]['user']);
+//     });
   }
 
   Future<dynamic> logout(){
@@ -53,7 +54,7 @@ class RestDatasource {
     });
   }
 
-  Future<User> getUser() async{
+  Future<dynamic> getUser() async{
     var _prefs = await SharedPreferences.getInstance();
     var token = _prefs.get("token");
     var data = {'token':token};
@@ -62,9 +63,7 @@ class RestDatasource {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token}',
     };
-    return _networkUtil.post(GET_USER,body:data,headers: headers).then((dynamic res){
-      return new User.fromJson(res['data']);
-    });
+    return await _networkUtil.post(GET_USER,body:data,headers: headers);
   }
 
   Future<dynamic> updateLocation(String latitude,String longitude) async{

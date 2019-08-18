@@ -12,8 +12,6 @@ import 'package:ut_driver_app/screens/home/recent_transactions.dart';
 import 'package:ut_driver_app/screens/global/notfound.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 
-
-
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

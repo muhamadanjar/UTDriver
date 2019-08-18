@@ -46,8 +46,8 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<User>(context);
-    print("userData ${userData}");
+    var userData = Provider.of<AuthBloc>(context);
+    print("userData ${userData.user}");
     ctx = context;
     final containerLogout = Padding(
       padding: EdgeInsets.only(left:20,right: 20),
