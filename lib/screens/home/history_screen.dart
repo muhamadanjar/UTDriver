@@ -30,12 +30,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: Consumer<HistoryBloc>(
           builder: (context,model,child){
             var token =Provider.of<AuthBloc>(context).token;
-            
-            model.getHistory(token);
+            model.getHistory();
             return
             RefreshIndicator(
               key: _refreshIndicatorKey,
               onRefresh: _onRefresh,
+              
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: model.history.length,

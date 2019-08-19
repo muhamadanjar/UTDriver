@@ -30,10 +30,10 @@ List<SingleChildCloneableWidget> dependentServices = [
     builder: (context, api, authenticationService) => AuthenticationService(api: api),
   ),
   ChangeNotifierProxyProvider<AuthBloc, HistoryBloc>(
-    builder: (context, auth, previousOrders) => HistoryBloc(
+    builder: (context, auth, previousHistory) => HistoryBloc(
           auth.token,
           auth.userId,
-          previousOrders == null ? [] : previousOrders.history,
+          previousHistory == null ? [] : previousHistory.history,
         ),
   ),
 ];

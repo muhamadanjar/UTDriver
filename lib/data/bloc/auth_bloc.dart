@@ -33,7 +33,7 @@ class AuthBloc extends BaseModel{
       @override
       void dispose() {
         print("disposing auth");
-        super.dispose();
+        // super.dispose();
       }
       bool get isAuth {
         return _token != null;
@@ -139,7 +139,8 @@ class AuthBloc extends BaseModel{
               ),
             );
             _autoLogout();
-            setBusy(false);
+            
+            
             final prefs = await SharedPreferences.getInstance();
             final userData = json.encode({
               'token': _token,
@@ -147,6 +148,7 @@ class AuthBloc extends BaseModel{
               'expiryDate': _expiryDate.toIso8601String(),
             },);
             prefs.setString('userData', userData);
+            setBusy(false);
             return {'success':!hasErrors,'data':_authenticatedUser,'message':message};    
           }
           

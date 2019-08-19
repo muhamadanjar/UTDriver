@@ -3,7 +3,6 @@ import 'package:ut_driver_app/routes.dart';
 import 'package:ut_driver_app/screens/home/index_screen.dart';
 import 'package:ut_driver_app/screens/home/splash_screen.dart';
 import 'package:ut_driver_app/screens/login/login_screen.dart';
-import 'package:ut_driver_app/utils/constans.dart';
 import 'package:provider/provider.dart';
 import 'data/bloc/auth_bloc.dart';
 import 'provider_setup.dart';

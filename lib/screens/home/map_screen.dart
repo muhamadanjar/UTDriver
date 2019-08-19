@@ -4,6 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 import 'package:ut_driver_app/components/custom_dialog.dart';
+import 'package:ut_driver_app/components/form_inputs/functionButton.dart';
+import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 class MapScreen extends StatefulWidget {
   @override
@@ -28,6 +30,66 @@ class _MapScreenState extends State<MapScreen> {
     SizeConfig().init(context);
     var iconButton = IconButton(icon: Icon(Icons.ac_unit), onPressed: () {},);
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 90,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
+          ],
+        ),
+        padding: EdgeInsets.only(left: 10,right: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          
+          children: <Widget>[
+             MaterialButton(
+                minWidth: SizeConfig.blockWidth*45,
+                height: 50,
+                color: Colors.blue[700],
+                padding: EdgeInsets.only(left: 20),
+                onPressed: () {
+                  
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      'Jemput',
+                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,letterSpacing: 4,wordSpacing: 7.0),
+                    )
+                  ],
+                ),
+              ),
+              MaterialButton(
+                minWidth: SizeConfig.blockWidth*45,
+                height: 50,
+                color: Colors.red[700],
+                padding: EdgeInsets.only(left: 20),
+                onPressed: () {
+                  
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      'Batal',
+                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,letterSpacing: 4,wordSpacing: 7.0),
+                    )
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
       appBar: AppBar(
           title: Text('Lokasi Penumpang'),
           backgroundColor: Colors.blue[700],
