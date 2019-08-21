@@ -27,7 +27,7 @@ class NetworkUtil {
         print(statusCode);
         if (statusCode < 200 || statusCode > 400 || json == null) {
           print(res);
-          throw new Exception("Error while fetching data : " + res);
+          throw new Exception("Error while fetching data : " + url);
         }
         return _decoder.convert(res);
       });

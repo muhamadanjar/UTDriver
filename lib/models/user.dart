@@ -8,8 +8,9 @@ class User {
   final double rating;
   final int trip;
   final String photoUrl;
+  final int totalTrip;
   int saldo;
-  User({this.id,this.email,this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo,this.photoUrl});
+  User({this.id,this.email,this.username, this.password,this.token,this.name,this.rating,this.trip,this.saldo,this.photoUrl,this.totalTrip});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

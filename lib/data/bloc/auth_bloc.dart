@@ -33,7 +33,7 @@ class AuthBloc extends BaseModel{
       @override
       void dispose() {
         print("disposing auth");
-        // super.dispose();
+        super.dispose();
       }
       bool get isAuth {
         return _token != null;
@@ -69,18 +69,35 @@ class AuthBloc extends BaseModel{
         _userId = extractedUserData['userId'];
 
         setBusy(true);
-        await _api.getUser(_token);
+        var responseData =  await _api.getUser(_token);
+        // if(responseData['status']){ _authenticatedUser = User(name:responseData['data']['name'],email:responseData['data']['email']) }
+        _authenticatedUser= User(name:responseData['data']['name'],email: responseData['data']['email'],photoUrl: responseData['data']['foto'],saldo: 0);
+        print("print response data ${responseData['data']}");
         setBusy(false);
       }
     
       Future updatePosition(Position position) async{
         try {
           setBusy(true);
-          await _api.updateLocation(position.latitude.toString(), position.longitude.toString());
+          var url = "${apiURL}/user/update_position";
+           var formData = {
+            'latitude': position.latitude.toString(),
+            'longitude': position.longitude.toString(),
+            'latest_update': new DateTime.now().toString()
+          };
+          var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${token}',
+          };
+          final response = await http.post(url,
+            body: json.encode(formData),
+            headers: headers,
+          );
           userPosition = position;
           setBusy(false);
         } catch (e) {
-          print('Error Position :'+ e);
+          print('Error Position :'+ e.toString());
         }
         
       }
@@ -98,7 +115,7 @@ class AuthBloc extends BaseModel{
       Future checkJob() async{
         try {
           print("checking job");
-          await _api.checkJob();
+          await _api.checkJob(_token);
         } catch (e) {
         }
       }
@@ -116,13 +133,13 @@ class AuthBloc extends BaseModel{
                 'returnSecureToken': true,
               },
           );
-          print(formData);
+          // print(formData);
           final response = await http.post(url,
             body: formData,
             headers: {'Content-Type': 'application/json'},
           );
           final responseData = json.decode(response.body);
-          print(responseData);
+          // print(responseData);
           if (responseData.containsKey('status') && responseData['status']) {
             message = 'Authentication succeeded!';
             hasErrors = false;
@@ -132,6 +149,7 @@ class AuthBloc extends BaseModel{
             );
             _userDataSubject.add(_authenticatedUser);
             _token = responseData['token'];
+            notifyListeners();
             _userId = "responseData['localId']";
             _expiryDate = DateTime.now().add(
               Duration(
@@ -149,6 +167,7 @@ class AuthBloc extends BaseModel{
             },);
             prefs.setString('userData', userData);
             setBusy(false);
+
             return {'success':!hasErrors,'data':_authenticatedUser,'message':message};    
           }
           
@@ -179,6 +198,7 @@ class AuthBloc extends BaseModel{
       Future<void> logout() async {
         _token = null;
         _userId = null;
+        _databaseHelper.deleteUsers();
         _expiryDate = null;
         if (_authTimer != null) {
           _authTimer.cancel();

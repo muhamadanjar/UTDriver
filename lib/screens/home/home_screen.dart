@@ -86,7 +86,7 @@ class HomeScreenState extends State<HomeScreen>{
           Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
           print("position $newPosition");
           model.updatePosition(newPosition);
-          model.checkJob();
+          // model.checkJob();
         },
         builder:(context,model,child)=> Container(
           child:RefreshIndicator(

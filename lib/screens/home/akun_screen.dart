@@ -48,89 +48,6 @@ class _ProfileViewState extends State<ProfileView> {
     var userData = Provider.of<AuthBloc>(context);
     print("userData ${userData.userDataSubject}");
     ctx = context;
-    final containerLogout = Padding(
-      padding: EdgeInsets.only(left:20,right: 20),
-      child: Container(
-        child: InkWell(
-          onTap: (){
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed('/');
-            Provider.of<AuthBloc>(context, listen: false).logout();
-          },
-          child: Container(
-              width: 200,
-              height: 38,
-              margin: EdgeInsets.only(bottom: 10),
-              alignment: FractionalOffset.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 1),
-                color: Colors.white,
-                borderRadius:
-                BorderRadius.all(const Radius.circular(2.0)),
-              ),
-              child: Text('Keluar',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold))),
-        ),
-      ),
-    );
-    final info = Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                "3,914",
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Trips",
-                style:
-                    TextStyle(color: Colors.grey, fontSize: 16),
-              ),
-            ],
-          ),
-          Container(
-            height: 60,
-            width: 1,
-            decoration: BoxDecoration(
-                border: Border(
-                    right: BorderSide(color: Colors.black12))),
-          ),
-          InkWell(
-            onTap: (){;
-              Navigator.pushNamed(context, RoutePaths.Topup);
-            },
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "model.user",
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Saldo",
-                  style:TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
     return DefaultTabController(
       length: 1,
       child: NestedScrollView(
@@ -138,7 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                expandedHeight: kExpandedHeight,
+                expandedHeight: 300,
                 floating: false,
                 automaticallyImplyLeading: false,
                 pinned: true,
@@ -149,24 +66,27 @@ class _ProfileViewState extends State<ProfileView> {
                     onPressed: () {},
                   )
                 ],
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 100),
-                        height: 300,
-                        decoration: BoxDecoration(color: secondaryColor),
-                        child: Center(
-                          child: ProfileWidget(
-                            onPressed: () =>{},
-                            icon: Icons.star,
-                            name: "userData.name",
-                            rating: "1.1",
-                            photoUrl: null,
+                flexibleSpace:new Consumer<AuthBloc>(
+                    builder:(context,auth,_)=> 
+                    FlexibleSpaceBar(background: 
+                    Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 100),
+                          height: 300,
+                          decoration: BoxDecoration(color: secondaryColor),
+                          child: Center(
+                            child: ProfileWidget(
+                              onPressed: () =>{},
+                              icon: Icons.star,
+                              name: auth.user.toString(),
+                              rating: "1.1",
+                              photoUrl: null,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -186,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: ListView(
                       children: <Widget>[
-                        info,
+                        infoWidget(context),
                         Divider(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -245,7 +165,7 @@ class _ProfileViewState extends State<ProfileView> {
                             makeCompliementsList("Cool Car"),
                           ],
                         ),
-                        containerLogout,
+                        containerLogout(),
                       ],
                     ),
                   );
@@ -254,6 +174,96 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           )),
     );
+  }
+
+  Widget infoWidget(BuildContext context){
+    return Consumer<AuthBloc>(
+      builder: (context,auth,_)=> Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Text(
+                  auth.user != null ? auth.user.totalTrip.toString():'0',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Trips",
+                  style:
+                      TextStyle(color: Colors.grey, fontSize: 16),
+                ),
+              ],
+            ),
+            Container(
+              height: 60,
+              width: 1,
+              decoration: BoxDecoration(
+                  border: Border(
+                      right: BorderSide(color: Colors.black12))),
+            ),
+            InkWell(
+              onTap: (){;
+                Navigator.pushNamed(context, RoutePaths.Topup);
+              },
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    auth.user != null ? auth.user.saldo.toString():'0',
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Saldo",
+                    style:TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget containerLogout(){
+    return  Padding(
+      padding: EdgeInsets.only(left:20,right: 20),
+      child: Container(
+        child: InkWell(
+          onTap: (){
+            Navigator.of(context).pushReplacementNamed(RoutePaths.Login);
+            Provider.of<AuthBloc>(context, listen: false).logout();
+          },
+          child: Container(
+              width: 200,
+              height: 38,
+              margin: EdgeInsets.only(bottom: 10),
+              alignment: FractionalOffset.center,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 1),
+                color: Colors.white,
+                borderRadius:
+                BorderRadius.all(const Radius.circular(2.0)),
+              ),
+              child: Text('Keluar',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold))),
+        ),
+      ),
+    );
+    
   }
 }
 
