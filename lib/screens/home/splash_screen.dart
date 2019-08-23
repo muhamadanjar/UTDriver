@@ -9,7 +9,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(Duration(seconds: 5), () => Navigator.of(context).pushReplacementNamed(RoutePaths.Login));
   }
 
   @override

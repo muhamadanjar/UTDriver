@@ -10,7 +10,6 @@ import 'package:ut_driver_app/data/bloc/login_view_bloc.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/data/enum/authMode.dart';
 import 'package:ut_driver_app/models/user.dart';
-import 'package:ut_driver_app/screens/login/login_screen_presenter.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,8 +19,7 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
-class LoginScreenState extends State<LoginScreen>
-    implements AuthStateListener {
+class LoginScreenState extends State<LoginScreen> {
   BuildContext _ctx;
   AnimationController _controller;
   Animation<Offset> _slideAnimation;
@@ -38,8 +36,7 @@ class LoginScreenState extends State<LoginScreen>
 
 
   LoginScreenState() {
-    var authStateProvider = new AuthStateProvider();
-    authStateProvider.subscribe(this);
+    
   }
 
   DecorationImage _buildBackgroundImage() {
@@ -184,11 +181,7 @@ class LoginScreenState extends State<LoginScreen>
     authStateProvider.notify(AuthState.LOGGED_IN);
   }
 
-  @override
-  void dispose() {
-
-    super.dispose();
-  }
+  
 
   Widget _buildEmailTextField() {
     return TextFormField(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ut_driver_app/screens/home/map_screen.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 import '../models/job.dart';
@@ -20,7 +21,12 @@ class JobCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: InkWell(
             onTap: (){
-              Navigator.pushNamed(context, RoutePaths.Map);
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>MapScreen(job: job),
+                  ),
+              );
+
             },
             child: Container(
               margin: const EdgeInsets.all(16.0),
@@ -33,13 +39,8 @@ class JobCard extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             LocationWidget(
-                              cityName: 'Medan',
-                              time: '120min',
-                            ),
-                            
-                            LocationWidget(
-                              cityName: 'Medan',
-                              time: '120min',
+                              cityName: job == null ? "":job.origin,
+                              subtitle: 'Penjemputan',
                             ),
                           ],
                         ),
@@ -49,10 +50,13 @@ class JobCard extends StatelessWidget {
                           color: Colors.white,
                         ),
                         SizedBox(height: 16.0),
-                        OrderDetailWidget(
-                          type: 'Rental',
-                          jam: '12:00',
-                          harga: 12,
+                        Row(
+                          children: <Widget>[
+                            LocationWidget(
+                              cityName: job == null ? "-":job.destination,
+                              subtitle: 'Tujuan',
+                            ),
+                          ],
                         ),
                       ],
                     ),

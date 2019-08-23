@@ -15,8 +15,10 @@ import 'package:ut_driver_app/models/user.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 import '../../models/base_model.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
+import '../../utils/network_util.dart';
 class AuthBloc extends BaseModel{
   DatabaseHelper _databaseHelper = new DatabaseHelper();
+  NetworkUtil _networkUtil = new NetworkUtil();
   RestDatasource _api;
   AuthBloc({RestDatasource api}):_api = api;  
   String _token;
@@ -30,11 +32,6 @@ class AuthBloc extends BaseModel{
   PublishSubject<bool> _userSubject = PublishSubject();
   PublishSubject<User> _userDataSubject = PublishSubject();
 
-      @override
-      void dispose() {
-        print("disposing auth");
-        super.dispose();
-      }
       bool get isAuth {
         return _token != null;
       }
@@ -80,7 +77,7 @@ class AuthBloc extends BaseModel{
         try {
           setBusy(true);
           var url = "${apiURL}/user/update_position";
-           var formData = {
+          var formData = {
             'latitude': position.latitude.toString(),
             'longitude': position.longitude.toString(),
             'latest_update': new DateTime.now().toString()
@@ -114,9 +111,33 @@ class AuthBloc extends BaseModel{
     
       Future checkJob() async{
         try {
-          print("checking job");
-          await _api.checkJob(_token);
+          var formData = {
+            'driverId':'1'
+          };
+          var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${_token}',
+          };
+          final url = "${apiURL}/driver/check_job";
+          final response = await http.post(url,
+            body: json.encode(formData),
+            headers: headers,
+          );
+          if(response.statusCode == 200){
+            final responseData = json.decode(response.body);
+            if (responseData['status']) {
+              var data = responseData['data'];
+              job = Job(origin: data['trip_address_origin'],oriLat: data['trip_or_latitude'],oriLng: data['trip_or_longitude'],desLat: data['trip_des_latitude'],desLng: data['trip_des_longitude'], destination: data['trip_address_destination']);
+            }
+          }else{
+            throw new Exception("Error while fetching data : ${response.body}");
+          }
+          
+          
         } catch (e) {
+          print(e);
+          
         }
       }
 
@@ -133,7 +154,6 @@ class AuthBloc extends BaseModel{
                 'returnSecureToken': true,
               },
           );
-          // print(formData);
           final response = await http.post(url,
             body: formData,
             headers: {'Content-Type': 'application/json'},
@@ -172,6 +192,7 @@ class AuthBloc extends BaseModel{
           }
           
         } catch (e) {
+          return {'success':false,'message':e.toString()};
         }
         
       }

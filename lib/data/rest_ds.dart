@@ -56,7 +56,7 @@ class RestDatasource {
 
   Future<dynamic> getUser(String token) async{
     var data = {'token':token};
-    print("rest api $data");
+    // print("rest api $data");
     var headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token}',

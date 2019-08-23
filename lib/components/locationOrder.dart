@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../theme/styles.dart';
 class LocationWidget extends StatelessWidget {
-  final String cityName, time;
+  final String cityName,subtitle;
 
   LocationWidget(
       {@required this.cityName,
-        @required this.time});
+        @required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class LocationWidget extends StatelessWidget {
       children: <Widget>[
         Text(cityName, style: smallTextStyle),
         SizedBox(height: 2.0),
-        Text(time, style: mediumTextStyle),
+        Text(subtitle, style: mediumTextStyle),
       ],
     );
   }

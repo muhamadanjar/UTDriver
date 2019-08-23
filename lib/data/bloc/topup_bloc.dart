@@ -16,12 +16,12 @@ class TopUpBloc extends BaseModel {
   String noRek;
   String totTrans;
 
-  @override
-  void dispose() {
-    print("disposing topup");
+  // @override
+  // void dispose() {
+  //   print("disposing topup");
     
-    super.dispose();
-  }
+  //   // super.dispose();
+  // }
 
   
 

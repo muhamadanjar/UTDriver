@@ -82,15 +82,17 @@ class HomeScreenState extends State<HomeScreen>{
       body:BaseWidget(
         model: AuthBloc(api: Provider.of(context)),
         onModelReady: (model) async{
+          
           print("Ready Model");
+          model.getUser();
           Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
           print("position $newPosition");
           model.updatePosition(newPosition);
-          // model.checkJob();
+          model.checkJob();
         },
         builder:(context,model,child)=> Container(
           child:RefreshIndicator(
-            onRefresh: _reload,
+            onRefresh: () =>_reload(model),
             child: ListView(
               children: <Widget>[
                 Container(
@@ -107,7 +109,7 @@ class HomeScreenState extends State<HomeScreen>{
                     child: Text('Latitude: ${model.userPosition != null ? model.userPosition.latitude.toString() : '0'}, Longitude: ${model.userPosition != null ? model.userPosition.longitude.toString() : '0'}'),
                   ),
                 ),
-                JobWidget(job:job)
+                JobCard(job: model.job,)
 
               ],
             ),
@@ -118,10 +120,13 @@ class HomeScreenState extends State<HomeScreen>{
     );
 
   }
-  Future<Null> _reload(){
+  Future<Null> _reload(model) async{
 
     Completer<Null> completer = new Completer<Null>();
+    Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    model.updatePosition(newPosition);
     Timer timer = new Timer(new Duration(seconds: 3), () {
+      
       completer.complete();
     });
     return completer.future;
@@ -244,9 +249,5 @@ class HomeScreenState extends State<HomeScreen>{
     );
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  
 }

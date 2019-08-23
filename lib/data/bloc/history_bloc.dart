@@ -18,11 +18,11 @@ class HistoryBloc extends BaseModel {
   List<HisDetails> _history;
   HistoryBloc(this.authToken,this.userId,this._history);
 
-  @override
-  void dispose() {
-    print("disposing history");
-    _controller.close();
-  }
+  // @override
+  // void dispose() {
+  //   print("disposing history");
+  //   // _controller.close();
+  // }
 
   List<HisDetails> get history {
     return [..._history];
