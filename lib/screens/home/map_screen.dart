@@ -39,7 +39,7 @@ class _MapScreenState extends State<MapScreen> {
     SizeConfig().init(context);
     var iconButton = IconButton(icon: Icon(Icons.ac_unit), onPressed: () {},);
     return Scaffold(
-      bottomNavigationBar: Consumer<TripBloc>(
+      bottomNavigationBar: Consumer<AuthBloc>(
         builder:(contex,trip,prev)=> Container(
           height: 90,
           decoration: BoxDecoration(

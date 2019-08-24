@@ -66,7 +66,11 @@ class _ProfileViewState extends State<ProfileView> {
                     onPressed: () {},
                   )
                 ],
-                flexibleSpace:new Consumer<AuthBloc>(
+                flexibleSpace:BaseWidget(
+                  model: AuthBloc(api: Provider.of(context)),
+                    onModelReady: (model){
+                      model.getUser();
+                    },
                     builder:(context,auth,_)=> 
                     FlexibleSpaceBar(background: 
                     Stack(
@@ -79,8 +83,8 @@ class _ProfileViewState extends State<ProfileView> {
                             child: ProfileWidget(
                               onPressed: () =>{},
                               icon: Icons.star,
-                              name: auth.user.toString(),
-                              rating: "1.1",
+                              name: auth.user == null ? "user":auth.user.name,
+                              rating: auth.user == null ? "0.0":auth.user.rating.toString(),
                               photoUrl: null,
                             ),
                           ),

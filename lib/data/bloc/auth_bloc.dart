@@ -68,7 +68,7 @@ class AuthBloc extends BaseModel{
         setBusy(true);
         var responseData =  await _api.getUser(_token);
         // if(responseData['status']){ _authenticatedUser = User(name:responseData['data']['name'],email:responseData['data']['email']) }
-        _authenticatedUser= User(name:responseData['data']['name'],email: responseData['data']['email'],photoUrl: responseData['data']['foto'],saldo: 0);
+        _authenticatedUser= User(name:responseData['data']['name'],email: responseData['data']['email'],photoUrl: responseData['data']['foto'],saldo: responseData['data']['wallet'],rating: responseData['data']['rate']);
         print("print response data ${responseData['data']}");
         setBusy(false);
       }
@@ -101,15 +101,43 @@ class AuthBloc extends BaseModel{
     
       Future updateStatus(bool status) async{
         try{
+          final prefs = await SharedPreferences.getInstance();
+          if (!prefs.containsKey('userData')) {
+            return false;
+          }
+          final extractedUserData = json.decode(prefs.getString('userData')) as Map<String, Object>;
+          final expiryDate = DateTime.parse(extractedUserData['expiryDate']);
+
+          if (expiryDate.isBefore(DateTime.now())) {
+            return false;
+          }
+          _token = extractedUserData['token'];
           setBusy(true);
-          _api.changeStatusOnline(status.toString());
-          userStatus = status;
+          var url = "${apiURL}/user/changeonline";
+          var formData = {
+            'online' : status.toString()
+          };
+          var headers = {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $_token',
+          };
+          final response = await http.post(url,
+            body: json.encode(formData),
+            headers: headers,
+          );
+          print(headers);
+          if(response.statusCode == 200){
+            
+            final responseData = json.decode(response.body);
+            _userSubject.add(int.parse(responseData['data']['isonline']) == 1);
+          }
           setBusy(false);
     
         }catch (e){}
       }
     
       Future checkJob() async{
+        print("checkhing job ${token}");
         try {
           var formData = {
             'driverId':'1'
@@ -159,24 +187,24 @@ class AuthBloc extends BaseModel{
             headers: {'Content-Type': 'application/json'},
           );
           final responseData = json.decode(response.body);
-          // print(responseData);
           if (responseData.containsKey('status') && responseData['status']) {
             message = 'Authentication succeeded!';
             hasErrors = false;
+            
             _authenticatedUser = User(
               token: responseData['data']['token'],
               email: responseData['data']['user']['email']
             );
             _userDataSubject.add(_authenticatedUser);
             _token = responseData['token'];
-            notifyListeners();
             _userId = "responseData['localId']";
             _expiryDate = DateTime.now().add(
               Duration(
                 seconds: responseData['expiresIn'] != null ? int.parse(responseData['expiresIn']):3600 ,
               ),
             );
-            _autoLogout();
+            
+            // _autoLogout();
             
             
             final prefs = await SharedPreferences.getInstance();
@@ -186,8 +214,8 @@ class AuthBloc extends BaseModel{
               'expiryDate': _expiryDate.toIso8601String(),
             },);
             prefs.setString('userData', userData);
+            print(userData);
             setBusy(false);
-
             return {'success':!hasErrors,'data':_authenticatedUser,'message':message};    
           }
           
@@ -198,6 +226,7 @@ class AuthBloc extends BaseModel{
       }
     
       Future<bool> tryAutoLogin() async {
+        print("tryautoloagin");
         final prefs = await SharedPreferences.getInstance();
         if (!prefs.containsKey('userData')) {
           return false;

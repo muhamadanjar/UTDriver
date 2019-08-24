@@ -5,7 +5,7 @@ class User {
   final String password;
   final String name;
   String token;
-  final double rating;
+  final int rating;
   final int trip;
   final String photoUrl;
   final int totalTrip;
