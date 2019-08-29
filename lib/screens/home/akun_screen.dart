@@ -46,7 +46,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     var userData = Provider.of<AuthBloc>(context);
-    print("userData ${userData.userDataSubject}");
     ctx = context;
     return DefaultTabController(
       length: 1,
@@ -67,7 +66,7 @@ class _ProfileViewState extends State<ProfileView> {
                   )
                 ],
                 flexibleSpace:BaseWidget(
-                  model: AuthBloc(api: Provider.of(context)),
+                  model: AuthBloc(),
                     onModelReady: (model){
                       model.getUser();
                     },
@@ -101,8 +100,8 @@ class _ProfileViewState extends State<ProfileView> {
             onRefresh: (){},
             child: Scaffold(
               body: BaseWidget(
-                model: AuthBloc(api: Provider.of(context)),
-                onModelReady: (model)=>model.getUser(),
+                model: AuthBloc(),
+                onModelReady: (model){},
                 builder:(context,model,child){
                   return Container(
                     decoration: BoxDecoration(
@@ -189,19 +188,18 @@ class _ProfileViewState extends State<ProfileView> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Text(
-                  auth.user != null ? auth.user.totalTrip.toString():'0',
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
+                // Text(
+                //   auth.user != null ? auth.user.totalTrip.toString():'0',
+                //   style: TextStyle(
+                //     fontSize: 30,
+                //   ),
+                // ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
                   "Trips",
-                  style:
-                      TextStyle(color: Colors.grey, fontSize: 16),
+                  style:TextStyle(color: Colors.grey, fontSize: 16),
                 ),
               ],
             ),
@@ -219,7 +217,7 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    auth.user != null ? auth.user.saldo.toString():'0',
+                    '0',
                     style: TextStyle(
                       fontSize: 30,
                     ),

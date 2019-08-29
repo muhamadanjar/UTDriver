@@ -108,7 +108,7 @@ class _MapScreenState extends State<MapScreen> {
       body:
       
         BaseWidget(
-        model: AuthBloc(api: Provider.of(context)),
+        model: AuthBloc(),
         onModelReady: (model){},
         builder: (context,model,_)=>
         

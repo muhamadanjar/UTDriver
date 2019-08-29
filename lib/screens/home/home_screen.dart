@@ -70,17 +70,25 @@ class HomeScreenState extends State<HomeScreen>{
 
         title: Text('Utama Trans'),
         actions: <Widget>[
-          InkWell(
-            child: Switch(value: isSwitched,onChanged: _onChangeSwitch,activeColor: Colors.white),
-            onTap: () {
-              print("click search");
-            },
+          Consumer<AuthBloc>(
+            builder:(ctx,auth,_)=> InkWell(
+              child: Switch(value: isSwitched,onChanged: (bool val){
+                print(val);
+                setState(() {
+                  isSwitched = val;
+                });
+                auth.updateStatus(isSwitched);
+              },activeColor: Colors.white),
+              onTap: () {
+                print("click search");
+              },
+            ),
           ),
         ],
       ),
 
       body:BaseWidget(
-        model: AuthBloc(api: Provider.of(context)),
+        model: AuthBloc(),
         onModelReady: (model) async{
           
           print("Ready Model");

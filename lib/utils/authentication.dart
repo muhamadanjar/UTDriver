@@ -9,7 +9,6 @@ import '../data/rest_ds.dart';
 class AuthenticationService {
   RestDatasource _api;
   DatabaseHelper _databaseHelper;
-  AuthBloc _authBloc;
 
   AuthenticationService({RestDatasource api,DatabaseHelper database}){
     _api = api;
