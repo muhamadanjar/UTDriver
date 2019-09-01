@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/rendering.dart';
@@ -28,7 +29,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState(){
     super.initState();
-    print(widget.job.toJson());
   }
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -153,35 +153,50 @@ class _MapScreenState extends State<MapScreen> {
               bottom: 5,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                
                 children: <Widget>[
+                  
+
                   Container(
                     width: SizeConfig.blockWidth*95,
-                    height: 100,
-                    color: Colors.black38,
+                    height: 200,
+                    color: Colors.white,
                     margin: EdgeInsets.only(left: 10,right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    child: Column(
                       children: <Widget>[
-                        FlatButton(
-                          
-                          onPressed: null,
-                          child: iconButton,
+                        ListTile(
+                          leading: Container(
+                            padding: EdgeInsets.only(right: 12.0),
+                            decoration: new BoxDecoration(
+                                border: new Border(
+                                    right: new BorderSide(width: 1.0, color: Colors.white24))),
+                            child: CachedNetworkImage(
+                                imageUrl: "http://via.placeholder.com/350x150",
+                                placeholder: (context, url) => new CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => new Icon(Icons.error),
+                            ),
+                          ),
+                          title: Text(
+                            "Customer",
+                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Row(
+                            children: <Widget>[
+                              Icon(Icons.linear_scale, color: Colors.black),
+                              Text("Intermediate", style: TextStyle(color: Colors.black))
+                            ],
+                          ),
+
                         ),
-                        MaterialButton(onPressed: null,
-                            color: Colors.redAccent,
-                            highlightColor: Colors.redAccent,
-                            splashColor: Colors.redAccent,
-                            minWidth: 150,
-                            elevation: 4,
-                            highlightElevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3)
-                            ),
-                            padding: EdgeInsets.symmetric(vertical: 35),
-                            child: Text("Mulai"),
-                            ),
-                        
-                        
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Awal", style: TextStyle(fontSize: 20)),
+                            SizedBox(height: 2.0),
+                            Text("Akhir", style: TextStyle(fontSize: 20)),
+                          ],
+                        ),
                       ],
                     ),
                   ),

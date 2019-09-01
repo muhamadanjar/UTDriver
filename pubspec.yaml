@@ -40,6 +40,8 @@ dependencies:
   rxdart: ^0.22.1
   connectivity: ^0.4.3+6
   intl: ^0.15.8
+  cached_network_image: ^1.1.1
+  sliding_up_panel: ^0.3.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
