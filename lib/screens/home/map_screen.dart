@@ -17,6 +17,7 @@ import 'package:ut_driver_app/utils/constans.dart';
 class MapScreen extends StatefulWidget {
   Job job;
   MapScreen({Key key , @required this.job}):super(key:key);
+  
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -25,7 +26,7 @@ class _MapScreenState extends State<MapScreen> {
   CameraPosition _initialPosition = CameraPosition(target: LatLng(3.6422756, 98.5294038),zoom: 11.0);
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(3.6422756, 98.5294038);
-  
+  BuildContext _ctx;
   @override
   void initState(){
     super.initState();
@@ -34,26 +35,139 @@ class _MapScreenState extends State<MapScreen> {
     _controller.complete(controller);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    var iconButton = IconButton(icon: Icon(Icons.ac_unit), onPressed: () {},);
-    return Scaffold(
-      bottomNavigationBar: Consumer<AuthBloc>(
-        builder:(contex,trip,prev)=> Container(
-          height: 90,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))
-            ],
+  void openDialog(){
+    showDialog(
+      context: _ctx,
+      builder: (BuildContext context) => CustomDialog(
+        title: "Success",
+        description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
+  Widget infoWidget(){
+    return  Card(
+      color: Colors.white,
+      elevation: 12,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16)
+      ),
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            leading: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              decoration: new BoxDecoration(
+                  border: new Border(
+                      right: new BorderSide(width: 1.0, color: Colors.white24))),
+              child: CachedNetworkImage(
+                    imageUrl: "http://via.placeholder.com/50x50",
+                    placeholder: (context, url) => new CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+              ),
+            ),
+            title: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Customer 1",
+                          style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
+                        ),
+                      ),
+                      SizedBox(height: 3.0,),
+                      Text(
+                        "Selasa, 3 September 2019",
+                        style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        "120.000",
+                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
+                      ),
+                      SizedBox(height: 5,),
+                      Text(
+                        "12 Km",
+                        style: TextStyle(color: Colors.grey[800],fontSize: 10),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
           ),
-          padding: EdgeInsets.only(left: 10,right: 15),
-          child: Row(
+          Container(
+            padding: EdgeInsets.all(4.0),
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("JEMPUT", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
+                SizedBox(height: 2.0),
+                Text("Titik Jemput",style: TextStyle(fontSize: 13),),
+                Container(
+                  color: Colors.blueGrey,
+                  height: 0.8,
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(4.0),
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("TUJUAN", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
+                SizedBox(height: 2.0),
+                Text("Titik Jemput",style: TextStyle(fontSize: 13),),
+                Container(
+                  color: Colors.blueGrey,
+                  height: 0.8,
+                )
+              ],
+            ),
+          ),
+          
+          ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: Padding(
+              padding: const EdgeInsets.only(left:3,right: 3),
+              child: RaisedButton(
+                onPressed: (){},
+                child: Text('Proses',style: TextStyle(color: Colors.white),),
+                color: secondaryColor,
+                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
+              ),
+            ),
+          )
+        ],
+      ),  
+    );
+  }
+
+  Widget bottomApp(){
+    return Container(
+      height: 90,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 11, offset: Offset(3.0, 4.0))],
+      ),
+      padding: EdgeInsets.only(left: 10,right: 15),
+      child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            
+            mainAxisSize: MainAxisSize.max,      
             children: <Widget>[
                MaterialButton(
                   minWidth: SizeConfig.blockWidth*45,
@@ -98,9 +212,19 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
             ],
-          ),
-        ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _ctx = context;
+    SizeConfig().init(context);
+    var iconButton = IconButton(icon: Icon(Icons.ac_unit), onPressed: () {},);
+    return Scaffold(
+      // bottomNavigationBar: Consumer<AuthBloc>(
+      //   builder:(contex,trip,prev)=> bottomApp()
+      // ),
       appBar: AppBar(
           title: Text('Lokasi Penumpang'),
           backgroundColor: Colors.blue[700],
@@ -111,9 +235,10 @@ class _MapScreenState extends State<MapScreen> {
         model: AuthBloc(),
         onModelReady: (model){},
         builder: (context,model,_)=>
-        
+
           Stack(
           children: <Widget>[
+           
             GoogleMap(
                 onMapCreated: _onMapCreated,
                 myLocationEnabled: true,
@@ -129,17 +254,7 @@ class _MapScreenState extends State<MapScreen> {
                 child: Column(
                   children: <Widget>[
                     FloatingActionButton(
-                      onPressed: (){
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => CustomDialog(
-                            title: "Success",
-                            description:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                            buttonText: "Okay",
-                          ),
-                        );
-                      },
+                      onPressed: openDialog,
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Colors.blue,
                       child: const Icon(Icons.gps_fixed, size: 25.0),
@@ -149,58 +264,15 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
+            
             Positioned(
-              bottom: 5,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                
-                children: <Widget>[
-                  
-
-                  Container(
+              bottom: 10,
+              child: Container(
                     width: SizeConfig.blockWidth*95,
                     height: 200,
-                    color: Colors.white,
+                    color: Colors.transparent,
                     margin: EdgeInsets.only(left: 10,right: 10),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading: Container(
-                            padding: EdgeInsets.only(right: 12.0),
-                            decoration: new BoxDecoration(
-                                border: new Border(
-                                    right: new BorderSide(width: 1.0, color: Colors.white24))),
-                            child: CachedNetworkImage(
-                                imageUrl: "http://via.placeholder.com/350x150",
-                                placeholder: (context, url) => new CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => new Icon(Icons.error),
-                            ),
-                          ),
-                          title: Text(
-                            "Customer",
-                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Row(
-                            children: <Widget>[
-                              Icon(Icons.linear_scale, color: Colors.black),
-                              Text("Intermediate", style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("Awal", style: TextStyle(fontSize: 20)),
-                            SizedBox(height: 2.0),
-                            Text("Akhir", style: TextStyle(fontSize: 20)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                    child: infoWidget(),
               ),
             )
 
