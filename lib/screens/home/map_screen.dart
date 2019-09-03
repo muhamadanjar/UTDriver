@@ -229,16 +229,12 @@ class _MapScreenState extends State<MapScreen> {
           title: Text('Lokasi Penumpang'),
           backgroundColor: Colors.blue[700],
       ),
-      body:
-      
-        BaseWidget(
+      body:BaseWidget(
         model: AuthBloc(),
         onModelReady: (model){},
         builder: (context,model,_)=>
-
           Stack(
           children: <Widget>[
-           
             GoogleMap(
                 onMapCreated: _onMapCreated,
                 myLocationEnabled: true,
@@ -268,11 +264,11 @@ class _MapScreenState extends State<MapScreen> {
             Positioned(
               bottom: 10,
               child: Container(
-                    width: SizeConfig.blockWidth*95,
-                    height: 200,
-                    color: Colors.transparent,
-                    margin: EdgeInsets.only(left: 10,right: 10),
-                    child: infoWidget(),
+                width: SizeConfig.blockWidth*95,
+                height: 200,
+                color: Colors.transparent,
+                margin: EdgeInsets.only(left: 10,right: 10),
+                child: infoWidget(),
               ),
             )
 

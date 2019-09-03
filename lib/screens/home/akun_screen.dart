@@ -62,7 +62,9 @@ class _ProfileViewState extends State<ProfileView> {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.edit, size: 26, color: Colors.white),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutePaths.EditProfile);
+                    },
                   )
                 ],
                 flexibleSpace:BaseWidget(
