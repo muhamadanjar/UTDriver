@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/base_widget.dart';
 import 'dart:async';
@@ -11,6 +12,8 @@ import 'package:ut_driver_app/components/custom_dialog.dart';
 import 'package:ut_driver_app/components/form_inputs/functionButton.dart';
 import 'package:ut_driver_app/components/network.dart';
 import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
+import 'package:ut_driver_app/data/bloc/trip_bloc.dart';
+import 'package:ut_driver_app/models/base_model.dart';
 import 'package:ut_driver_app/models/job.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
@@ -41,120 +44,123 @@ class _MapScreenState extends State<MapScreen> {
       builder: (BuildContext context) => CustomDialog(
         title: "Success",
         description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Text",
         buttonText: "Okay",
       ),
     );
   }
 
   Widget infoWidget(){
-    return  Card(
-      color: Colors.white,
-      elevation: 12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16)
-      ),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            leading: Container(
-              padding: EdgeInsets.only(right: 12.0),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      right: new BorderSide(width: 1.0, color: Colors.white24))),
-              child: CachedNetworkImage(
-                    imageUrl: "http://via.placeholder.com/50x50",
-                    placeholder: (context, url) => new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
+    return  Consumer<TripBloc>(builder:(context,trip,_){ 
+      trip.getCurrentTrip();
+      return Card(
+        color: Colors.white,
+        elevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16)
+        ),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: Container(
+                padding: EdgeInsets.only(right: 12.0),
+                decoration: new BoxDecoration(
+                    border: new Border(
+                        right: new BorderSide(width: 1.0, color: Colors.white24))),
+                child: CachedNetworkImage(
+                      imageUrl: "http://via.placeholder.com/50x50",
+                      placeholder: (context, url) => new CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                ),
               ),
-            ),
-            title: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Customer 1",
+              title: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "trip.authToken",
+                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
+                          ),
+                        ),
+                        SizedBox(height: 3.0,),
+                        Text(
+                          new DateFormat('d, MMMM y').format(trip.currentJob.dateTime),
+                          style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          "120.000",
                           style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
                         ),
-                      ),
-                      SizedBox(height: 3.0,),
-                      Text(
-                        "Selasa, 3 September 2019",
-                        style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "120.000",
-                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
-                      ),
-                      SizedBox(height: 5,),
-                      Text(
-                        "12 Km",
-                        style: TextStyle(color: Colors.grey[800],fontSize: 10),
-                      ),
-                    ],
+                        SizedBox(height: 5,),
+                        Text(
+                          "12 Km",
+                          style: TextStyle(color: Colors.grey[800],fontSize: 10),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+            ),
+            Container(
+              padding: EdgeInsets.all(4.0),
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("JEMPUT", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
+                  SizedBox(height: 2.0),
+                  Text(trip.currentJob.origin,style: TextStyle(fontSize: 13),),
+                  Container(
+                    color: Colors.blueGrey,
+                    height: 0.8,
                   )
                 ],
               ),
             ),
-
-          ),
-          Container(
-            padding: EdgeInsets.all(4.0),
-            alignment: Alignment.topLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("JEMPUT", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
-                SizedBox(height: 2.0),
-                Text("Titik Jemput",style: TextStyle(fontSize: 13),),
-                Container(
-                  color: Colors.blueGrey,
-                  height: 0.8,
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(4.0),
-            alignment: Alignment.topLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("TUJUAN", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
-                SizedBox(height: 2.0),
-                Text("Titik Jemput",style: TextStyle(fontSize: 13),),
-                Container(
-                  color: Colors.blueGrey,
-                  height: 0.8,
-                )
-              ],
-            ),
-          ),
-          
-          ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-              padding: const EdgeInsets.only(left:3,right: 3),
-              child: RaisedButton(
-                onPressed: (){},
-                child: Text('Proses',style: TextStyle(color: Colors.white),),
-                color: secondaryColor,
-                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
+            Container(
+              padding: EdgeInsets.all(4.0),
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("TUJUAN", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
+                  SizedBox(height: 2.0),
+                  Text(trip.currentJob.destination,style: TextStyle(fontSize: 13),),
+                  Container(
+                    color: Colors.blueGrey,
+                    height: 0.8,
+                  )
+                ],
               ),
             ),
-          )
-        ],
-      ),  
-    );
+            
+            ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: Padding(
+                padding: const EdgeInsets.only(left:3,right: 3),
+                child: RaisedButton(
+                  onPressed: (){},
+                  child: Text('Proses',style: TextStyle(color: Colors.white),),
+                  color: secondaryColor,
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
+                ),
+              ),
+            )
+          ],
+        ),  
+      );
+    });
   }
 
   Widget bottomApp(){

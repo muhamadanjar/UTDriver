@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/data/bloc/history_bloc.dart';
+import 'package:ut_driver_app/data/bloc/trip_bloc.dart';
 import 'package:ut_driver_app/data/database_helper.dart';
 import 'package:ut_driver_app/utils/prefs.dart';
 
@@ -36,6 +37,9 @@ List<SingleChildCloneableWidget> dependentServices = [
           previousHistory == null ? [] : previousHistory.history,
         ),
   ),
+  ChangeNotifierProxyProvider<AuthBloc,TripBloc>(
+    builder: (context,auth,prev) => TripBloc(auth.token),
+  )
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
