@@ -1,5 +1,6 @@
 class Job {
   int id;
+  String customer;
   String type;
   String origin;
   String destination;
@@ -12,7 +13,7 @@ class Job {
   int harga;
   int distance;
 
-  Job({this.id,this.type,this.origin,this.destination,this.orderTime,this.harga,this.dateTime,this.oriLat,this.oriLng,this.desLat,this.desLng,this.distance});
+  Job({this.id,this.customer,this.type,this.origin,this.destination,this.orderTime,this.harga,this.dateTime,this.oriLat,this.oriLng,this.desLat,this.desLng,this.distance});
   factory Job.fromMap(Map<String, dynamic> dataMap) {
     return new Job(
       id:dataMap['trip_id'],
@@ -21,7 +22,7 @@ class Job {
       harga: dataMap['trip_total'],
       dateTime: DateTime.parse(dataMap['trip_date']),
       distance: dataMap['distance'],
-      
+      customer: dataMap['trip_book']
     );
   }
   Map<String, dynamic> toJson() {

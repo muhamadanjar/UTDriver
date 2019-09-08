@@ -53,7 +53,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget infoWidget(){
     return  Consumer<TripBloc>(builder:(context,trip,_){ 
       trip.getCurrentTrip();
-      return Card(
+      return trip.currentJob != null ? Card(
         color: Colors.white,
         elevation: 12,
         shape: RoundedRectangleBorder(
@@ -97,12 +97,12 @@ class _MapScreenState extends State<MapScreen> {
                     Column(
                       children: <Widget>[
                         Text(
-                          "120.000",
+                          trip.currentJob.harga.toString(),
                           style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
                         ),
                         SizedBox(height: 5,),
                         Text(
-                          "12 Km",
+                          "${trip.currentJob.distance} Km",
                           style: TextStyle(color: Colors.grey[800],fontSize: 10),
                         ),
                       ],
@@ -159,7 +159,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           ],
         ),  
-      );
+      ):Container();
     });
   }
 

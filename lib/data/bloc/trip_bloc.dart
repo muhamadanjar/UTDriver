@@ -26,7 +26,7 @@ class TripBloc extends BaseModel {
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         _job = Job.fromMap(responseData['data']);
-        print(_job);
+        print(_job.toString());
       }
 
     } catch (e) {
