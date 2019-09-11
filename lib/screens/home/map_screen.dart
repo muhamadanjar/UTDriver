@@ -150,7 +150,9 @@ class _MapScreenState extends State<MapScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(left:3,right: 3),
                 child: RaisedButton(
-                  onPressed: (){},
+                  onPressed: () async{
+                    await trip.changeStatusTrip(1);
+                  },
                   child: Text('Proses',style: TextStyle(color: Colors.white),),
                   color: secondaryColor,
                   shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))

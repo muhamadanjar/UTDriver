@@ -21,16 +21,64 @@ class TripBloc extends BaseModel {
       final response = await http.post(url,
         headers: {'Content-Type': 'application/json','Authorization': 'Bearer ${authToken}'},
       );
-
-      
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         _job = Job.fromMap(responseData['data']);
-        print(_job.toString());
+        tripId = _job.id;
+        print(tripId);
       }
 
     } catch (e) {
 
+    }
+  }
+  Future changeStatusTrip(int status) async{
+    final url = '${apiURL}/updateTripStatus';
+    try {
+      final paramsBody = json.encode(
+          {
+            'trip_id': tripId,
+            'status': status
+          },
+      );
+      final response = await http.post(url,
+        headers: {'Content-Type': 'application/json','Authorization': 'Bearer ${authToken}'},
+        body: paramsBody
+      );
+      
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        // _job = Job.fromMap(responseData['data']);
+        
+        print(tripId);
+      }
+    } catch (e) {
+    }
+  }
+  checkStatus(int tripId){
+    switch (tripId) {
+      case 0:
+        return 'STATUS_PENDING';
+        break;
+      case 1:
+        return 'STATUS_RECEIVE_DRIVER';
+        break;
+      case 2:
+      return 'STATUS_ONTHEWAY_DRIVER';
+      break;
+      case 3:
+       return 'STATUS_INTRANSIT';
+       break;
+      case 4:
+        return 'STATUS_COMPLETE';
+        break;
+      case 5:
+        return 'STATUS_CANCELED';
+        break;
+      case 6:
+        return "STATUS_DECLINE";
+        break;
+      default:
     }
   }
 }
