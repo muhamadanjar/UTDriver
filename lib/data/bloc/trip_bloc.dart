@@ -13,6 +13,7 @@ class TripBloc extends BaseModel {
   String authToken;
   PublishSubject _trip = new PublishSubject<Job>();
   int tripId;
+  int currentStatusTrip;
   TripBloc(this.authToken);
 
   Future getCurrentTrip() async{

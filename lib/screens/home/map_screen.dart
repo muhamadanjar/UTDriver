@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/base_widget.dart';
+import 'package:ut_driver_app/components/button_full.dart';
+import 'package:ut_driver_app/components/container_posisi.dart';
 import 'dart:async';
 
 import 'package:ut_driver_app/components/custom_dialog.dart';
@@ -110,55 +112,19 @@ class _MapScreenState extends State<MapScreen> {
                   ],
                 ),
               ),
-
             ),
-            Container(
-              padding: EdgeInsets.all(4.0),
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("JEMPUT", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
-                  SizedBox(height: 2.0),
-                  Text(trip.currentJob.origin,style: TextStyle(fontSize: 13),),
-                  Container(
-                    color: Colors.blueGrey,
-                    height: 0.8,
-                  )
-                ],
-              ),
+            ContainerPosisi(
+              info: 'JEMPUT',
+              lokasi: trip.currentJob.origin,
             ),
-            Container(
-              padding: EdgeInsets.all(4.0),
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("TUJUAN", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey)),
-                  SizedBox(height: 2.0),
-                  Text(trip.currentJob.destination,style: TextStyle(fontSize: 13),),
-                  Container(
-                    color: Colors.blueGrey,
-                    height: 0.8,
-                  )
-                ],
-              ),
+            ContainerPosisi(
+              info: 'TUJUAN',
+              lokasi: trip.currentJob.destination,
             ),
-            
-            ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: double.infinity),
-              child: Padding(
-                padding: const EdgeInsets.only(left:3,right: 3),
-                child: RaisedButton(
-                  onPressed: () async{
-                    await trip.changeStatusTrip(1);
-                  },
-                  child: Text('Proses',style: TextStyle(color: Colors.white),),
-                  color: secondaryColor,
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-                ),
-              ),
-            )
+            ButtonFull(color: secondaryColor,text: 'Proses',onPress: () async {
+                await trip.changeStatusTrip(1);
+              },
+            ),
           ],
         ),  
       ):Container();
