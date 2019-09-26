@@ -7,7 +7,7 @@ class ContainerPosisi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-              padding: EdgeInsets.all(4.0),
+              padding: EdgeInsets.all(8.0),
               alignment: Alignment.topLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

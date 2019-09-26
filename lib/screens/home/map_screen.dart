@@ -13,6 +13,7 @@ import 'dart:async';
 import 'package:ut_driver_app/components/custom_dialog.dart';
 import 'package:ut_driver_app/components/form_inputs/functionButton.dart';
 import 'package:ut_driver_app/components/network.dart';
+import 'package:ut_driver_app/components/pemesanan/CardPemesanan.dart';
 import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/data/bloc/trip_bloc.dart';
 import 'package:ut_driver_app/models/base_model.dart';
@@ -21,7 +22,7 @@ import 'package:ut_driver_app/theme/styles.dart';
 import 'package:ut_driver_app/utils/constans.dart';
 class MapScreen extends StatefulWidget {
   Job job;
-  MapScreen({Key key , @required this.job}):super(key:key);
+  MapScreen({Key key ,this.job}):super(key:key);
   
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -52,84 +53,6 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget infoWidget(){
-    return  Consumer<TripBloc>(builder:(context,trip,_){ 
-      trip.getCurrentTrip();
-      return trip.currentJob != null ? Card(
-        color: Colors.white,
-        elevation: 12,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16)
-        ),
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: Container(
-                padding: EdgeInsets.only(right: 12.0),
-                decoration: new BoxDecoration(
-                    border: new Border(
-                        right: new BorderSide(width: 1.0, color: Colors.white24))),
-                child: CachedNetworkImage(
-                      imageUrl: "http://via.placeholder.com/50x50",
-                      placeholder: (context, url) => new CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                ),
-              ),
-              title: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "trip.authToken",
-                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
-                          ),
-                        ),
-                        SizedBox(height: 3.0,),
-                        Text(
-                          new DateFormat('d, MMMM y').format(trip.currentJob.dateTime),
-                          style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 10),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          trip.currentJob.harga.toString(),
-                          style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),
-                        ),
-                        SizedBox(height: 5,),
-                        Text(
-                          "${trip.currentJob.distance} Km",
-                          style: TextStyle(color: Colors.grey[800],fontSize: 10),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            ContainerPosisi(
-              info: 'JEMPUT',
-              lokasi: trip.currentJob.origin,
-            ),
-            ContainerPosisi(
-              info: 'TUJUAN',
-              lokasi: trip.currentJob.destination,
-            ),
-            ButtonFull(color: secondaryColor,text: 'Proses',onPress: () async {
-                await trip.changeStatusTrip(1);
-              },
-            ),
-          ],
-        ),  
-      ):Container();
-    });
-  }
 
   Widget bottomApp(){
     return Container(
@@ -236,16 +159,27 @@ class _MapScreenState extends State<MapScreen> {
             ),
             
             Positioned(
-              bottom: 10,
+              bottom: 20,
               child: Container(
                 width: SizeConfig.blockWidth*95,
                 height: 200,
                 color: Colors.transparent,
                 margin: EdgeInsets.only(left: 10,right: 10),
-                child: infoWidget(),
+                child: Consumer<TripBloc>(builder:(context,trip,_) {
+                  trip.getCurrentTrip();
+                  return trip.currentJob != null ?
+                  CardPemesanan(
+                      userUrl: "http://via.placeholder.com/50x50",
+                      namaUser: 'A',
+                      tgl: trip.currentJob.dateTime,
+                      harga: trip.currentJob.harga.toString(),
+                      jarak: trip.currentJob.distance.toString(),
+                      lokasiAwal: trip.currentJob.origin,
+                      lokasiAkhir: trip.currentJob.destination
+                  ) : Container();
+                }),
               ),
-            )
-
+            ),
           ],
         ),
         

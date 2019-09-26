@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ut_driver_app/screens/home/map_screen.dart';
 import 'package:ut_driver_app/theme/styles.dart';
-import 'package:ut_driver_app/utils/constans.dart';
 import '../models/job.dart';
 import '../components/locationOrder.dart';
-import '../components/detailOrder.dart';
 class JobCard extends StatelessWidget {
   final Job job;
 
