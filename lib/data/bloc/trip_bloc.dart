@@ -16,6 +16,10 @@ class TripBloc extends BaseModel {
   int currentStatusTrip;
   TripBloc(this.authToken);
 
+  PublishSubject<Job> get tripSubject {
+    return _trip;
+  }
+
   Future getCurrentTrip() async{
     final url = "${apiURL}/driver/check_job";
     try {
@@ -25,7 +29,9 @@ class TripBloc extends BaseModel {
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         _job = Job.fromMap(responseData['data']);
+        _trip.add(_job);
         tripId = _job.id;
+        currentStatusTrip = _job.status;
         print(tripId);
       }
 

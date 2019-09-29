@@ -1,24 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
+
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/base_widget.dart';
-import 'package:ut_driver_app/components/button_full.dart';
-import 'package:ut_driver_app/components/container_posisi.dart';
 import 'dart:async';
 
 import 'package:ut_driver_app/components/custom_dialog.dart';
-import 'package:ut_driver_app/components/form_inputs/functionButton.dart';
-import 'package:ut_driver_app/components/network.dart';
+
 import 'package:ut_driver_app/components/pemesanan/CardPemesanan.dart';
 import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/data/bloc/trip_bloc.dart';
-import 'package:ut_driver_app/models/base_model.dart';
+
 import 'package:ut_driver_app/models/job.dart';
-import 'package:ut_driver_app/theme/styles.dart';
+
 import 'package:ut_driver_app/utils/constans.dart';
 class MapScreen extends StatefulWidget {
   Job job;
@@ -162,7 +159,7 @@ class _MapScreenState extends State<MapScreen> {
               bottom: 20,
               child: Container(
                 width: SizeConfig.blockWidth*95,
-                height: 200,
+                height: SizeConfig.blockHeight * 33,
                 color: Colors.transparent,
                 margin: EdgeInsets.only(left: 10,right: 10),
                 child: Consumer<TripBloc>(builder:(context,trip,_) {
@@ -175,7 +172,14 @@ class _MapScreenState extends State<MapScreen> {
                       harga: trip.currentJob.harga.toString(),
                       jarak: trip.currentJob.distance.toString(),
                       lokasiAwal: trip.currentJob.origin,
-                      lokasiAkhir: trip.currentJob.destination
+                      lokasiAkhir: trip.currentJob.destination,
+                      onPress: () async{
+                        var status = trip.currentStatusTrip;
+                        print(trip.tripId);
+                        status += 1;
+                        print(status);
+                        trip.changeStatusTrip(status);
+                      },
                   ) : Container();
                 }),
               ),

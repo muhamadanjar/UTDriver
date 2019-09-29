@@ -14,7 +14,8 @@ class CardPemesanan extends StatelessWidget {
   String jarak;
   String lokasiAwal;
   String lokasiAkhir;
-  CardPemesanan({this.userUrl,this.namaUser,this.tgl,this.harga,this.jarak,this.lokasiAwal,this.lokasiAkhir});
+  Function onPress;
+  CardPemesanan({this.userUrl,this.namaUser,this.tgl,this.harga,this.jarak,this.lokasiAwal,this.lokasiAkhir,this.onPress});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -88,7 +89,7 @@ class CardPemesanan extends StatelessWidget {
               ),
             ],
           ),
-          FunctionalButton(),
+          ButtonFull(onPress: onPress,color: secondaryColor,text: 'Simpan',),
         ],
       ),
     );
