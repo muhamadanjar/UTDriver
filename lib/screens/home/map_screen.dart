@@ -173,17 +173,20 @@ class _MapScreenState extends State<MapScreen> {
                       jarak: trip.currentJob.distance.toString(),
                       lokasiAwal: trip.currentJob.origin,
                       lokasiAkhir: trip.currentJob.destination,
+                      textButton: trip.textButton == null ? 'Proses':trip.textButton,
                       onPress: () async{
 
                         trip.incrementStatus();
                         var status = trip.tripStatus;
+                        var keyButton = trip.checkStatus(status);
                         print(status);
-                        print(trip.checkStatus(status));
-                        // var status = trip.currentStatusTrip;
-                        // print(trip.tripId);
-                        // status += 1;
-                        // print(status);
+                        print(keyButton);
+                        trip.setTextButton(keyButton);
+                        
                         // trip.changeStatusTrip(status);
+                        if(keyButton == 'STATUS_COMPLETE'){
+                          Navigator.pushReplacementNamed(context, RoutePaths.Home);
+                        }
                       },
                   ) : Container();
                 }),

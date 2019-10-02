@@ -14,7 +14,7 @@ class TripBloc extends BaseModel {
   PublishSubject _trip = new PublishSubject<Job>();
   int tripId;
   int tripStatus;
-  int currentStatusTrip;
+  String textButton;
   TripBloc(this.authToken);
 
   PublishSubject<Job> get tripSubject {
@@ -32,7 +32,10 @@ class TripBloc extends BaseModel {
         _job = Job.fromMap(responseData['data']);
         _trip.add(_job);
         tripId = _job.id;
-        currentStatusTrip = _job.status;
+        tripStatus = _job.status;
+
+        setTextButton(setTextButton(checkStatus(tripStatus)));
+        
         print(tripId);
       }
 
@@ -93,7 +96,14 @@ class TripBloc extends BaseModel {
     if (tripStatus == null) {
       tripStatus = 0;
     }
-    tripStatus++;
+    if(tripStatus < 6){
+      tripStatus++;
+    }
+    notifyListeners();
+    
+  }
+  setTextButton(String text){
+    textButton = text;
     notifyListeners();
   }
 }

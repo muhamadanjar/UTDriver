@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:ut_driver_app/components/button_full.dart';
 import 'package:ut_driver_app/components/container_posisi.dart';
-import 'package:ut_driver_app/components/form_inputs/functionButton.dart';
 import 'package:ut_driver_app/theme/styles.dart';
 
 class CardPemesanan extends StatelessWidget {
@@ -15,7 +14,8 @@ class CardPemesanan extends StatelessWidget {
   String lokasiAwal;
   String lokasiAkhir;
   Function onPress;
-  CardPemesanan({this.userUrl,this.namaUser,this.tgl,this.harga,this.jarak,this.lokasiAwal,this.lokasiAkhir,this.onPress});
+  String textButton;
+  CardPemesanan({this.userUrl,this.namaUser,this.tgl,this.harga,this.jarak,this.lokasiAwal,this.lokasiAkhir,this.onPress,this.textButton});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -89,7 +89,7 @@ class CardPemesanan extends StatelessWidget {
               ),
             ],
           ),
-          ButtonFull(onPress: onPress,color: secondaryColor,text: 'Simpan',),
+          ButtonFull(onPress: onPress,color: secondaryColor,text: textButton,),
         ],
       ),
     );
