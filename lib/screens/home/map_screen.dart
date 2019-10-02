@@ -174,11 +174,16 @@ class _MapScreenState extends State<MapScreen> {
                       lokasiAwal: trip.currentJob.origin,
                       lokasiAkhir: trip.currentJob.destination,
                       onPress: () async{
-                        var status = trip.currentStatusTrip;
-                        print(trip.tripId);
-                        status += 1;
+
+                        trip.incrementStatus();
+                        var status = trip.tripStatus;
                         print(status);
-                        trip.changeStatusTrip(status);
+                        print(trip.checkStatus(status));
+                        // var status = trip.currentStatusTrip;
+                        // print(trip.tripId);
+                        // status += 1;
+                        // print(status);
+                        // trip.changeStatusTrip(status);
                       },
                   ) : Container();
                 }),

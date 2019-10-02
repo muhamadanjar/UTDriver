@@ -13,6 +13,7 @@ class TripBloc extends BaseModel {
   String authToken;
   PublishSubject _trip = new PublishSubject<Job>();
   int tripId;
+  int tripStatus;
   int currentStatusTrip;
   TripBloc(this.authToken);
 
@@ -87,5 +88,12 @@ class TripBloc extends BaseModel {
         break;
       default:
     }
+  }
+  incrementStatus(){
+    if (tripStatus == null) {
+      tripStatus = 0;
+    }
+    tripStatus++;
+    notifyListeners();
   }
 }
