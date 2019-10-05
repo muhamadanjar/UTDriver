@@ -33,6 +33,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState(){
     super.initState();
+    
   }
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -123,14 +124,13 @@ class _MapScreenState extends State<MapScreen> {
           title: Text('Lokasi Penumpang'),
           backgroundColor: Colors.blue[700],
       ),
-      body:BaseWidget(
-        model: AuthBloc(),
-        onModelReady: (model){},
-        builder: (context,model,_)=>
-          Stack(
+      body:Stack(
           children: <Widget>[
             GoogleMap(
                 onMapCreated: _onMapCreated,
+                onTap: (LatLng pos){
+                  print(pos);
+                },
                 myLocationEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target: _center,
@@ -154,7 +154,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-            
             Positioned(
               bottom: 20,
               child: Container(
@@ -162,38 +161,16 @@ class _MapScreenState extends State<MapScreen> {
                 height: SizeConfig.blockHeight * 33,
                 color: Colors.transparent,
                 margin: EdgeInsets.only(left: 10,right: 10),
-                child: Consumer<TripBloc>(builder:(context,trip,_) {
-                  trip.getCurrentTrip();
-                  return trip.currentJob != null ?
+                child: 
                   CardPemesanan(
                       userUrl: "http://via.placeholder.com/50x50",
-                      namaUser: 'A',
-                      tgl: trip.currentJob.dateTime,
-                      harga: trip.currentJob.harga.toString(),
-                      jarak: trip.currentJob.distance.toString(),
-                      lokasiAwal: trip.currentJob.origin,
-                      lokasiAkhir: trip.currentJob.destination,
-                      textButton: trip.textButton == null ? 'Proses':trip.textButton,
-                      onPress: () async{
-
-                        trip.incrementStatus();
-                        var status = trip.tripStatus;
-                        var keyButton = trip.checkStatus(status);
-                        print(status);
-                        print(keyButton);
-                        trip.setTextButton(keyButton);
-                        
-                        // trip.changeStatusTrip(status);
-                        if(keyButton == 'STATUS_COMPLETE'){
-                          Navigator.pushReplacementNamed(context, RoutePaths.Home);
-                        }
-                      },
-                  ) : Container();
-                }),
+                     
+                  ),
+                ),
               ),
-            ),
+            
           ],
-        ),
+        
         
       )
       

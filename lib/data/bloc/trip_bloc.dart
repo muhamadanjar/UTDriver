@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:ut_driver_app/models/base_model.dart';
@@ -28,8 +27,10 @@ class TripBloc extends BaseModel {
         headers: {'Content-Type': 'application/json','Authorization': 'Bearer ${authToken}'},
       );
       final responseData = json.decode(response.body);
+      print(responseData);
       if (response.statusCode == 200) {
         _job = Job.fromMap(responseData['data']);
+        print(_job.customer);
         _trip.add(_job);
         tripId = _job.id;
         tripStatus = _job.status;

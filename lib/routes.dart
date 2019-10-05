@@ -29,6 +29,8 @@ class Router {
       case RoutePaths.Earning:
         return MaterialPageRoute(builder: (_) => EarningsPage());
       case RoutePaths.Map:
+        var argument = settings.arguments;
+        print("argument: $argument");
         return MaterialPageRoute(builder: (_) => MapScreen());
       case RoutePaths.Splash:
         return MaterialPageRoute(builder: (_) => SplashScreen());

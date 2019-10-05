@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:ut_driver_app/components/base_widget.dart';
 import 'package:ut_driver_app/components/job_card.dart';
-import 'package:ut_driver_app/components/job_widget.dart';
+import 'package:ut_driver_app/components/saldo.dart';
 import 'package:ut_driver_app/data/bloc/auth_bloc.dart';
 import 'package:ut_driver_app/data/rest_ds.dart';
 import 'package:ut_driver_app/models/job.dart';
@@ -96,7 +96,6 @@ class HomeScreenState extends State<HomeScreen>{
           Position newPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).timeout(new Duration(seconds: 5));
           print("position $newPosition");
           model.updatePosition(newPosition);
-          model.checkJob();
         },
         builder:(context,model,child)=> Container(
           child:RefreshIndicator(
@@ -107,7 +106,9 @@ class HomeScreenState extends State<HomeScreen>{
                   padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                   color: Colors.white,
                   child: Column(
-                    children:<Widget>[_buildGopayMenu()],
+                    children:<Widget>[
+                      Saldo()
+                    ],
                   )
                 ),
                 Container(
@@ -139,123 +140,7 @@ class HomeScreenState extends State<HomeScreen>{
     });
     return completer.future;
   }
-  Widget _buildGopayMenu() {
-    return Consumer<AuthBloc>(
-          builder:(context,model,_)=> new Container(
-          height: 120.0,
-          decoration: new BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
-              ),
-              borderRadius: new BorderRadius.all(new Radius.circular(3.0))
-          ),
-          child: new Column(
-            children: <Widget>[
-              new Container(
-                padding: EdgeInsets.all(12.0),
-                decoration: new BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [const Color(0xff3164bd), const Color(0xff295cb5)],
-                    ),
-                    borderRadius: new BorderRadius.only(
-                        topLeft: new Radius.circular(3.0),
-                        topRight: new Radius.circular(3.0))),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                     Text(
-                      "Saldo",
-                      style: new TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.white,
-                      ),
-                    ),
-                    Container(
-                      child: new Text(
-                        "",
-                        style: new TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.white,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              new Container(
-                padding: EdgeInsets.only(left: 32.0, right: 32.0, top: 12.0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Image.asset(
-                          "assets/icons/icon_transfer.png",
-                          width: 32.0,
-                          height: 32.0,
-                        ),
-                        new Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                        ),
-                        new Text(
-                          "Transfer",
-                          style: TextStyle(color: Colors.white, fontSize: 12.0),
-                        )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, RoutePaths.Topup),
-                      child: new Column(
 
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Image.asset(
-                            "assets/icons/icon_saldo.png",
-                            width: 32.0,
-                            height: 32.0,
-                          ),
-                          new Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                          ),
-                          new Text(
-                            "Isi Saldo",
-                            style: TextStyle(color: Colors.white, fontSize: 12.0),
-                    
-                          )
-                        ],
-                      ),
-                    ),
-                    
-                    
-                    new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Image.asset(
-                          "assets/icons/icon_menu.png",
-                          width: 32.0,
-                          height: 32.0,
-                        ),
-                        new Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                        ),
-                        new Text(
-                          "Lainnya",
-                          style: TextStyle(color: Colors.white, fontSize: 12.0),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )),
-    );
-  }
 
   
 }

@@ -69,9 +69,7 @@ class AuthBloc with ChangeNotifier {
       _userId = "responseData['localId']";
       _expiryDate = DateTime.now().add(
         Duration(
-          seconds: responseData['expiresIn'] != null ? int.parse(
-            responseData['expiresIn'],
-          ):int.parse("3600"),
+          seconds: responseData['expiresIn'] != null ? responseData['expiresIn']:int.parse("3600"),
         ),
       );
       _autoLogout();
@@ -190,36 +188,6 @@ class AuthBloc with ChangeNotifier {
       }
   }
 
-  Future checkJob() async{
-    try {
-          var formData = {
-            'driverId':'1'
-          };
-          var headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ${_token}',
-          };
-          print(headers);
-          final url = "${apiURL}/driver/check_job";
-          final response = await http.post(url,
-            body: json.encode(formData),
-            headers: headers,
-          );
-          if(response.statusCode == 200){
-            final responseData = json.decode(response.body);
-            if (responseData['status']) {
-              var data = responseData['data'];
-              job = Job(origin: data['trip_address_origin'],oriLat: data['trip_or_latitude'],oriLng: data['trip_or_longitude'],desLat: data['trip_des_latitude'],desLng: data['trip_des_longitude'], destination: data['trip_address_destination']);
-            }
-          }else{
-            throw new Exception("Error while fetching data : ${response.body}");
-          }
-          
-    } catch (e) {
-      print(e);
-    }
-  }
 
   Future updateStatus(bool status) async{
     var data = status ? 1:0;

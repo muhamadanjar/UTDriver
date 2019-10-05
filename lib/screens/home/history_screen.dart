@@ -21,16 +21,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
+    var auth = Provider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
 
         title: Text('History'),
 
       ),
-      body: Consumer<HistoryBloc>(
-          builder: (context,model,child){
-            var token =Provider.of<AuthBloc>(context).token;
+      body: BaseWidget(
+          model: HistoryBloc(auth.token,auth.userId,[]),
+          onModelReady: (HistoryBloc model){
             model.getHistory();
+          },
+          builder: (context,model,child){
             return
             RefreshIndicator(
               key: _refreshIndicatorKey,
